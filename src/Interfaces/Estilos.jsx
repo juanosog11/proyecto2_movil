@@ -209,4 +209,7 @@ export const navbar = StyleSheet.create({
         fontSize: 12,
         color: '#333',
     },
-})
+});
+    export const EstiloModificar = StyleSheet.create({
+
+    });
