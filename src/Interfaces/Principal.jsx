@@ -26,7 +26,7 @@ const Principal = ({ navigation }) => {
   const handleAccionPress = (simbolo) => {
     // Aquí puedes navegar a otra pantalla pasando el símbolo de la acción como parámetro
     console.log(simbolo)
-    // navigation.navigate('DetallesAccion', { simbolo });
+    navigation.navigate('Compra', { simbolo });
   };
 
   if (loading) {

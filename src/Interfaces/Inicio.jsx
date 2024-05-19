@@ -22,6 +22,8 @@ const sliderData = [
 
 export default function HomeScreen({ navigation }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  
+  
 
   useEffect(() => {
     const interval = setInterval(() => {
