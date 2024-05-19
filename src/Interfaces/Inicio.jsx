@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, Button, TextInput, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { View, Text, Image, Button, TextInput, TouchableOpacity, ScrollView, Dimensions, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { estilos_estandar, principal } from "./Estilos.jsx";
-import { StatusBar } from 'expo-status-bar';
+import { estilos_estandar, principal } from "./Estilos"; // Cambiado a Estilos
 
 const { width } = Dimensions.get('window');
 
@@ -52,10 +51,11 @@ export default function HomeScreen({ navigation }) {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         style={estilos_estandar.sliderContainer}
+        contentContainerStyle={estilos_estandar.sliderContentContainer}
       >
         {sliderData.map((item, index) => (
-          <View key={index} style={estilos_estandar.slide}>
-            <Image source={item.image} style={estilos_estandar.slideImage} />
+          <View key={index} style={[estilos_estandar.slide, { width: width }]}>
+            {/* <Image source={item.image} style={estilos_estandar.slideImage} /> */}
             <Text style={estilos_estandar.slideText}>{item.text}</Text>
           </View>
         ))}
@@ -92,7 +92,7 @@ export default function HomeScreen({ navigation }) {
         </View>
       </View>
 
-      <StatusBar style='auto' />
+
     </View>
   );
 }
