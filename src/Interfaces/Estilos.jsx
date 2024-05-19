@@ -129,7 +129,8 @@ export const estilosPrincipal = StyleSheet.create({
     scrollView: {
         flex: 1,
         marginHorizontal: 20,
-        paddingBottom: 100,
+        // paddingBottom: 80,
+        marginBottom:80,
     },
     Container: {
         padding: 10,
