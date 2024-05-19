@@ -255,3 +255,47 @@ export const navbar = StyleSheet.create({
         color: '#333',
     },
 });
+
+
+export const compra = StyleSheet.create(
+    {
+        container: {
+            flex: 1,
+            backgroundColor: '#fff',
+        },
+        scrollView: {
+            flex: 1,
+        },
+        content: {
+            padding: 20,
+        },
+        title2: {
+            fontSize: 18,
+            fontWeight: 'bold',
+            marginBottom: 10,
+        },
+        chartContainer: {
+            padding: 20,
+            borderTopWidth: 1,
+            borderTopColor: '#ccc',
+            margin: 80,
+        },
+        // Estilo para el nombre de la empresa
+        companyText: {
+            fontSize: 18,
+            lineHeight: 24,
+            fontWeight: 'bold', // Texto en negrita
+            color: 'black', // Color azul brillante
+            marginBottom: 10, // Margen inferior para separación
+        },
+
+        // Estilo para el precio de la acción
+        priceText: {
+            fontSize: 20,
+            lineHeight: 28,
+            fontWeight: 'bold', // Texto en negrita
+            color: 'black', // Color verde brillante
+            marginBottom: 10, // Margen inferior para separación
+        },
+    }
+)
