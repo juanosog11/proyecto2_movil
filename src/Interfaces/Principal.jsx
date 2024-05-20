@@ -1,19 +1,60 @@
-import React from 'react';
-import { ScrollView, View, Text, Image } from 'react-native';
-import { estilos_estandar } from './Estilos.jsx';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, View, Text, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { estilosPrincipal, estilos_estandar } from './Estilos.jsx';
 import NavBar from '../components/Navbar.jsx';
 
-export default function Principal({ navigation }) {
+const Principal = ({ navigation }) => {
+  const [acciones, setAcciones] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAcciones = async () => {
+      try {
+        const response = await fetch('https://api-acciones.onrender.com/api/acciones');
+        const data = await response.json();
+        setAcciones(data);
+      } catch (error) {
+        console.error('Error fetching acciones:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAcciones();
+  }, []);
+
+  const handleAccionPress = (simbolo) => {
+    // Aquí puedes navegar a otra pantalla pasando el símbolo de la acción como parámetro
+    console.log(simbolo)
+    navigation.navigate('Compra', { simbolo });
+  };
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
+
   return (
-    <View style={estilos_estandar.container}>
-      <View style={estilos_estandar.head}>
-        <Text style={estilos_estandar.title}>SmartInvest</Text>
-        <Image source={require('../images/logo.jpeg')} style={estilos_estandar.logo} />
+    <View style={estilosPrincipal.container}>
+      <View style={estilosPrincipal.head}>
+        <Text style={estilosPrincipal.title}>smartInvest</Text>
+        <Image source={require('../images/logo.jpeg')} style={estilosPrincipal.logo} />
       </View>
-      <ScrollView contentContainerStyle={estilos_estandar.contentContainer}>
-        {/* Aquí va el contenido principal */}
+
+      <ScrollView style={estilosPrincipal.scrollView}>
+        {acciones.map((accion) => (
+          <TouchableOpacity key={accion.simbolo} onPress={() => handleAccionPress(accion.simbolo)}>
+            <View style={estilosPrincipal.accionContainer}>
+              <Text style={estilosPrincipal.accionNombre}>{accion.nombre}</Text>
+              <Text style={estilosPrincipal.accionPrecio}>Precio: {accion.precio}</Text>
+              <Text style={estilosPrincipal.accionCambio}>Cambio: {accion.subida_bajada}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
       </ScrollView>
+
       <NavBar navigation={navigation} />
     </View>
   );
-}
+};
+
+export default Principal;
