@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 const sliderHeight = 100;
@@ -130,7 +130,7 @@ export const estilosPrincipal = StyleSheet.create({
         flex: 1,
         marginHorizontal: 20,
         // paddingBottom: 80,
-        marginBottom:80,
+        marginBottom: 80,
     },
     Container: {
         padding: 10,
@@ -190,46 +190,46 @@ export const estilosPerfil = StyleSheet.create({
 });
 
 export const EstiloRegistro = StyleSheet.create({
-  form: {
-    marginTop: 80,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    position: 'relative',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#f5f5f5',
-    padding: 10,
-  },
-  title: {
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
+    form: {
+        marginTop: 80,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        position: 'relative',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: '#f5f5f5',
+        padding: 10,
+    },
+    title: {
+        fontSize: 15,
+        fontWeight: 'bold',
+    },
 
-  input: {
-    flex: 1,
-    marginLeft: 0,
-    marginRight: 0,
-    padding: 5,
-    borderColor: 'black',
-    borderWidth: 1,
-    width: 250,
-    marginBottom: 7,
-  },
-  buttonContainer: {
-    marginTop: 35,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    alignItems: 'center',
-  },
-  button: {
-    backgroundColor: '#fff',
-    color: 'black',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    margin: 5,
-  },
+    input: {
+        flex: 1,
+        marginLeft: 0,
+        marginRight: 0,
+        padding: 5,
+        borderColor: 'black',
+        borderWidth: 1,
+        width: 250,
+        marginBottom: 7,
+    },
+    buttonContainer: {
+        marginTop: 35,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%',
+        alignItems: 'center',
+    },
+    button: {
+        backgroundColor: '#fff',
+        color: 'black',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        margin: 5,
+    },
 });
 
 
@@ -257,45 +257,63 @@ export const navbar = StyleSheet.create({
 });
 
 
-export const compra = StyleSheet.create(
-    {
-        container: {
-            flex: 1,
-            backgroundColor: '#fff',
-        },
-        scrollView: {
-            flex: 1,
-        },
-        content: {
-            padding: 20,
-        },
-        title2: {
-            fontSize: 18,
-            fontWeight: 'bold',
-            marginBottom: 10,
-        },
-        chartContainer: {
-            padding: 20,
-            borderTopWidth: 1,
-            borderTopColor: '#ccc',
-            margin: 80,
-        },
-        // Estilo para el nombre de la empresa
-        companyText: {
-            fontSize: 18,
-            lineHeight: 24,
-            fontWeight: 'bold', // Texto en negrita
-            color: 'black', // Color azul brillante
-            marginBottom: 10, // Margen inferior para separación
-        },
-
-        // Estilo para el precio de la acción
-        priceText: {
-            fontSize: 20,
-            lineHeight: 28,
-            fontWeight: 'bold', // Texto en negrita
-            color: 'black', // Color verde brillante
-            marginBottom: 10, // Margen inferior para separación
-        },
-    }
-)
+export const compra = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    head: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 16,
+        backgroundColor: '#f8f8f8',
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
+    logo: {
+        width: 40,
+        height: 40,
+    },
+    scrollView: {
+        paddingHorizontal: 16,
+    },
+    content: {
+        marginVertical: 16,
+    },
+    title2: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginVertical: 8,
+    },
+    companyText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginVertical: 4,
+    },
+    priceText: {
+        fontSize: 18,
+        marginVertical: 4,
+    },
+    chartContainer: {
+        marginVertical: 16,
+    },
+    inputContainer: {
+        marginVertical: 16,
+        marginBottom:80,
+    },
+    input: {
+        height: 40,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        paddingHorizontal: 8,
+        marginBottom: 16,
+    },
+    totalText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginVertical: 8,
+    },
+});
