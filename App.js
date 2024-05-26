@@ -2,12 +2,11 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './src/Interfaces/Inicio.jsx';
-import Perfil from './src/Interfaces/Perfil.jsx';
+import Perfil from './src/Interfaces/Perfil.jsx'
 import Registrar from './src/Interfaces/Registrar.jsx';
-import Inicio from './src/Interfaces/Inicio.jsx';
+import Inicio from './src/Interfaces/Inicio.jsx'
 import Principal from './src/Interfaces/Principal.jsx';
-import Compra from './src/Interfaces/Compra.jsx';
-import Modificar from './src/Interfaces/Modificar.jsx';
+import Compra from "./src/Interfaces/Compra.jsx";
 
 const Stack = createNativeStackNavigator();
 

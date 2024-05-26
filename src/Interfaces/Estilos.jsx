@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 const sliderHeight = 100;
@@ -130,7 +130,7 @@ export const estilosPrincipal = StyleSheet.create({
         flex: 1,
         marginHorizontal: 20,
         // paddingBottom: 80,
-        marginBottom:80,
+        marginBottom: 80,
     },
     Container: {
         padding: 10,
@@ -190,46 +190,46 @@ export const estilosPerfil = StyleSheet.create({
 });
 
 export const EstiloRegistro = StyleSheet.create({
-  form: {
-    marginTop: 80,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    position: 'relative',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#f5f5f5',
-    padding: 10,
-  },
-  title: {
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
+    form: {
+        marginTop: 80,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        position: 'relative',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: '#f5f5f5',
+        padding: 10,
+    },
+    title: {
+        fontSize: 15,
+        fontWeight: 'bold',
+    },
 
-  input: {
-    flex: 1,
-    marginLeft: 0,
-    marginRight: 0,
-    padding: 5,
-    borderColor: 'black',
-    borderWidth: 1,
-    width: 250,
-    marginBottom: 7,
-  },
-  buttonContainer: {
-    marginTop: 35,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    alignItems: 'center',
-  },
-  button: {
-    backgroundColor: '#fff',
-    color: 'black',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    margin: 5,
-  },
+    input: {
+        flex: 1,
+        marginLeft: 0,
+        marginRight: 0,
+        padding: 5,
+        borderColor: 'black',
+        borderWidth: 1,
+        width: 250,
+        marginBottom: 7,
+    },
+    buttonContainer: {
+        marginTop: 35,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%',
+        alignItems: 'center',
+    },
+    button: {
+        backgroundColor: '#fff',
+        color: 'black',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        margin: 5,
+    },
 });
 
 
@@ -333,3 +333,4 @@ export const EstiloModificar = StyleSheet.create({
     width: 290,
   },
 });
+
