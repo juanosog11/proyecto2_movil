@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, ActivityIndicator, Alert, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, ActivityIndicator, Alert } from 'react-native';
 import { estilosVenta } from './Estilos.jsx';
 import NavBar from '../components/Navbar.jsx';
 
-const Venta = ({ route, navigation }) => {
-    const { simbolo } = route.params;
-    const [accion, setAccion] = useState(null);
+export default function Venta({ route, navigation }) {
+    const simbolo = route?.params?.simbolo || 'AAPL';
+    const [accion, setAccion] = useState({});
     const [cantidad, setCantidad] = useState('');
     const [accionesUsuario, setAccionesUsuario] = useState(0);
     const [loading, setLoading] = useState(true);
@@ -25,7 +25,7 @@ const Venta = ({ route, navigation }) => {
 
         // const fetchAccionesUsuario = async () => {
         //     try {
-        //         const response = await fetch(`https://api-acciones.onrender.com/api/acciones_usuario/${simbolo}`); // Reemplaza con la URL adecuada para obtener las acciones del usuario
+        //         const response = await fetch(`https://api-acciones.onrender.com/api/acciones_usuario/${simbolo}`);
         //         const data = await response.json();
         //         setAccionesUsuario(data.cantidad);
         //     } catch (error) {
@@ -33,49 +33,47 @@ const Venta = ({ route, navigation }) => {
         //     }
         // };
 
-        // fetchAccion();
+        fetchAccion();
         // fetchAccionesUsuario();
     }, [simbolo]);
 
-    // const handleVenta = async () => {
-    //     if (!cantidad || isNaN(cantidad) || cantidad <= 0) {
-    //         Alert.alert('Error', 'Por favor, ingresa una cantidad válida.');
-    //         return;
-    //     }
+    const handleVenta = async () => {
+        if (!cantidad || isNaN(cantidad) || cantidad <= 0) {
+            Alert.alert('Error', 'Por favor, ingresa una cantidad válida.');
+            return;
+        }
 
-    //     if (cantidad > accionesUsuario) {
-    //         Alert.alert('Error', 'No tienes suficientes acciones para vender.');
-    //         return;
-    //     }
+        // if (cantidad > accionesUsuario) {
+        //     Alert.alert('Error', 'No tienes suficientes acciones para vender.');
+        //     return;
+        // }
 
-    //     const precioTotal = cantidad * accion.precio;
+        const precioTotal = cantidad * accion.precio;
 
-    //     try {
-    //         // const response = await fetch('https://api-acciones.onrender.com/api/vender', {
-    //         //     method: 'POST',
-    //         //     headers: {
-    //         //         'Content-Type': 'application/json',
-    //         //     },
-    //         //     body: JSON.stringify({
-    //         //         simbolo,
-    //         //         cantidad,
-    //         //         precioTotal,
-    //         //     }),
-    //         // });
+        try {
+            const response = await fetch('https://api-acciones.onrender.com/api/vender', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    simbolo,
+                    cantidad,
+                    precioTotal,
+                }),
+            });
 
-    //         // if (response.ok) {
-    //         //     Alert.alert('Venta realizada', `Has vendido ${cantidad} acciones de ${accion.nombre} por ${precioTotal} USD.`);
-    //         //     navigation.goBack();
-    //         // } else {
-    //         //     Alert.alert('Error', 'Hubo un problema al realizar la venta.');
-    //         // }
-
-    //         console.log("accion vendida ")
-    //     } catch (error) {
-    //         console.error('Error realizando la venta:', error);
-    //         Alert.alert('Error', 'Hubo un problema al realizar la venta.');
-    //     }
-    // };
+            if (response.ok) {
+                Alert.alert('Venta realizada', `Has vendido ${cantidad} acciones de ${accion.nombre} por ${precioTotal} USD.`);
+                navigation.goBack();
+            } else {
+                Alert.alert('Error', 'Hubo un problema al realizar la venta.');
+            }
+        } catch (error) {
+            console.error('Error realizando la venta:', error);
+            Alert.alert('Error', 'Hubo un problema al realizar la venta.');
+        }
+    };
 
     if (loading) {
         return <ActivityIndicator size="large" color="#0000ff" />;
@@ -88,7 +86,7 @@ const Venta = ({ route, navigation }) => {
                 <>
                     <Text style={estilosVenta.nombreAccion}>{accion.nombre}</Text>
                     <Text style={estilosVenta.precioAccion}>Precio por acción: {accion.precio} USD</Text>
-                    {/* <Text style={estilosVenta.cantidadAcciones}>Acciones disponibles: {accionesUsuario}</Text> */}
+                    <Text style={estilosVenta.cantidadAcciones}>Acciones disponibles: {2}</Text>
                     <TextInput
                         style={estilosVenta.input}
                         placeholder="Cantidad"
@@ -106,7 +104,3 @@ const Venta = ({ route, navigation }) => {
         </View>
     );
 };
-
-
-export default Venta;
-

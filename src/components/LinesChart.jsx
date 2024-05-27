@@ -10,7 +10,7 @@ export default function LineChartComponent({ labels, data }) {
         const date = new Date(label);
         return `${date.getMonth() + 1} - ${date.getDate()}`; // MM/DD
     });
-    
+
     const chartData = {
         labels: formattedLabels,
         datasets: [

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Image, TextInput, Button, CheckBox, ScrollView } from 'react-native';
+import { Text, View, Image, TextInput, Button, ScrollView } from 'react-native';
 import { estilos_estandar, EstiloRegistro } from './Estilos.jsx';
 
 export default function Registrar({ navigation }) {

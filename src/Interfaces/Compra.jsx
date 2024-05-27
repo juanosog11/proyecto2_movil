@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, Image, ActivityIndicator, TextInput, Button } from 'react-native';
-import { estilos_estandar, compra } from "./Estilos";
+import { estilos_estandar, compra } from "./Estilos.jsx";
 import NavBar from '../components/Navbar.jsx';
 import LineChart from '../components/LinesChart.jsx';
 

@@ -254,8 +254,7 @@ export const navbar = StyleSheet.create({
         fontSize: 12,
         color: '#333',
     },
-});
-
+})
 
 export const compra = StyleSheet.create({
     container: {
@@ -302,7 +301,7 @@ export const compra = StyleSheet.create({
     },
     inputContainer: {
         marginVertical: 16,
-        marginBottom:80,
+        marginBottom: 80,
     },
     input: {
         height: 40,
@@ -318,6 +317,42 @@ export const compra = StyleSheet.create({
     },
 });
 
+export const EstiloModificar = StyleSheet.create({
+    container: {
+        paddingHorizontal: 30,
+        paddingTop: 50,
+        alignItems: 'center',
+    },
+    caja: {
+        borderColor: 'black',
+        paddingTop: 15,
+    },
+    logo: {
+        width: 80,
+        height: 80,
+        borderRadius: 50,
+        alignItems: 'center',
+    },
+    title: {
+        fontSize: 15,
+        fontWeight: 'bold',
+    },
+    input: {
+        marginLeft: 0,
+        marginRight: 0,
+        padding: 5,
+        borderColor: 'black',
+        borderWidth: 1,
+        width: 290,
+        marginBottom: 7,
+    },
+    comboBox: {
+        borderColor: 'black',
+        alignItems: 'center',
+        borderWidth: 1,
+        width: 290,
+    },
+});
 
 export const estilosVenta = StyleSheet.create({
     container: {
