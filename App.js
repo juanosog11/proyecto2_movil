@@ -7,6 +7,8 @@ import Registrar from './src/Interfaces/Registrar.jsx';
 import Inicio from './src/Interfaces/Inicio.jsx'
 import Principal from './src/Interfaces/Principal.jsx';
 import Compra from "./src/Interfaces/Compra.jsx";
+import Acciones from "./src/Interfaces/Acciones.jsx";
+import Ventas from "./src/Interfaces/Ventas.jsx";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +22,8 @@ export default function App() {
         <Stack.Screen name='Inicio' component={Inicio} options={{ headerShown: false }} />
         <Stack.Screen name='Principal' component={Principal} options={{ headerShown: false }} />
         <Stack.Screen name='Compra' component={Compra} options={{ headerShown: false }} />
+        <Stack.Screen name='Acciones' component={Acciones} options={{ headerShown: false }} />
+        <Stack.Screen name='Ventas' component={Ventas} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

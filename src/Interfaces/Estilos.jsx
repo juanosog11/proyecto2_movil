@@ -317,3 +317,42 @@ export const compra = StyleSheet.create({
         marginVertical: 8,
     },
 });
+
+
+export const estilosVenta = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        padding: 20,
+    },
+    titulo: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    nombreAccion: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    precioAccion: {
+        fontSize: 18,
+        marginBottom: 20,
+    },
+    cantidadAcciones: {
+        fontSize: 16,
+        marginBottom: 20,
+    },
+    input: {
+        height: 40,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        marginBottom: 20,
+        paddingHorizontal: 10,
+    },
+    precioTotal: {
+        fontSize: 18,
+        marginBottom: 20,
+    },
+});
+
