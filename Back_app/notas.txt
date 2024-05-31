@@ -1,6 +1,0 @@
-"dependencies": 
-    "dotenv": es una herramienta comúnmente utilizada en proyectos Node.js para cargar variables de entorno desde un archivo .env en el entorno de desarrollo. Esto es útil para mantener valores sensibles, como contraseñas, claves de API u otras configuraciones, fuera del código fuente y evitar que se publiquen accidentalmente en repositorios públicos.
-    express: Marco de desarrollo web para Node.js, simplifica la creación de aplicaciones y APIs web.
-    morgan: Middleware de registro de solicitudes HTTP para Express, registra información sobre las solicitudes entrantes en la consola.
-    mysql2: Controlador de MySQL para Node.js, permite interactuar con bases de datos MySQL desde una aplicación Node.js.
-    nodemon: Herramienta de utilidad de desarrollo que supervisa cambios en los archivos y reinicia automáticamente la aplicación Node.js.

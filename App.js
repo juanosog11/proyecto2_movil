@@ -17,6 +17,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <carga/>
         <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Perfil' component={Perfil} options={{ headerShown: false }} />
         <Stack.Screen name='Registrar' component={Registrar} options={{ headerShown: false }} />
@@ -26,6 +27,7 @@ export default function App() {
         <Stack.Screen name='Acciones' component={Acciones} options={{ headerShown: false }} />
         <Stack.Screen name='Ventas' component={Ventas} options={{ headerShown: false }} />
         <Stack.Screen name='Modificar' component={Modificar} options={{headerShown: false}} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
