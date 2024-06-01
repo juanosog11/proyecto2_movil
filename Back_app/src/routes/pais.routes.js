@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { createPais, deletePais, getPais, getPaises, updatePais } from '../controllers/empoyees.controlles.js';
+import { createPais, deletePais, getPais, getPaises, updatePais } from '../controllers/pais.controllers.js';
 
 const router = Router();
 

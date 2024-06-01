@@ -5,7 +5,7 @@ import {
   createUsuarios_acc,
   updateUsuarios_acc,
   deleteUsuarios_acc,
-} from '../controllers/empoyees.controlles.js';
+} from '../controllers/usuario_accion.controller.js';
 
 
 const router = Router();
