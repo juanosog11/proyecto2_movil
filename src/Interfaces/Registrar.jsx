@@ -12,7 +12,7 @@ export default function Registrar({ navigation }) {
 
       <View style={EstiloRegistro.form}>
         <Text style={EstiloRegistro.title}>Edad</Text>
-        <TextInput style={EstiloRegistro.input} name="" />
+        <TextInput style={EstiloRegistro.input} name="" placeholder='Edad' keyboardType='number-pad'  />
         <Text style={EstiloRegistro.title}>Nombre</Text>
         <TextInput style={EstiloRegistro.input} />
         <Text style={EstiloRegistro.title}>Telefono</Text>
