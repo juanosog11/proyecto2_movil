@@ -63,10 +63,10 @@ export default function HomeScreen({ navigation }) {
 
       {/* Formulario de inicio de sesión */}
       <View style={principal.form}>
-        <Text style={principal.title2}>Email: </Text>
-        <TextInput style={principal.input} />
-        <Text style={principal.title2}>Contraseña: </Text>
-        <TextInput style={principal.input} secureTextEntry />
+        <Text style={EstiloRegistro.title}>Correo</Text>
+        <TextInput style={EstiloRegistro.input} name="Correo" placeholder='Correo' keyboardType='email-address' />
+        <Text style={EstiloRegistro.title}>Contraseña</Text>
+        <TextInput style={EstiloRegistro.input} name="Contraseña" placeholder='Contraseña' secureTextEntry />
 
         <View style={principal.buttonContainer}>
           <Button title='Inicio' onPress={() => navigation.navigate('Principal')} style={principal.button} />
