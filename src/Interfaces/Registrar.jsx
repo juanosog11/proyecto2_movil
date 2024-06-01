@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Image, TextInput, Button, ScrollView } from 'react-native';
+import { Text, View, Image, TextInput, Button, ScrollView} from 'react-native';
 import { estilos_estandar, EstiloRegistro } from './Estilos.jsx';
 
 export default function Registrar({ navigation }) {
@@ -12,7 +12,7 @@ export default function Registrar({ navigation }) {
 
       <View style={EstiloRegistro.form}>
         <Text style={EstiloRegistro.title}>Edad</Text>
-        <TextInput style={EstiloRegistro.input} />
+        <TextInput style={EstiloRegistro.input} name="" />
         <Text style={EstiloRegistro.title}>Nombre</Text>
         <TextInput style={EstiloRegistro.input} />
         <Text style={EstiloRegistro.title}>Telefono</Text>
