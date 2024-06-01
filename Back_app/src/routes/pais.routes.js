@@ -1,13 +1,17 @@
 import { Router } from "express";
 
-const router = Router()
+import { createPais, deletePais, getPais, getPaises, updatePais } from '../controllers/empoyees.controlles.js';
 
-router.get("/paises",)
+const router = Router();
 
-router.post()
+router.get('/Pais', getPaises);
 
-router.put()
+router.get('/Pais/:id', getPais);
 
-router.delete()
+router.post('/Pais', createPais);
 
-export default router
+router.patch('/Pais/:id', updatePais);
+
+router.delete('/Pais/:id', deletePais);
+
+export default router;
