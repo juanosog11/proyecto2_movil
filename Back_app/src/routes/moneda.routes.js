@@ -10,9 +10,9 @@ router.get("/Monedas/:id", Moneda.getMonedasId)
 
 router.post("/Monedas",Moneda.postMonedas)
 
-router.put("/Monedas")
+router.patch("/Monedas/:id",Moneda.patchMonedas)
 
-router.delete("/Monedas")
+router.delete("/Monedas/:id",Moneda.DeleteMonedas)
 
 
 

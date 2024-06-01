@@ -44,14 +44,15 @@ const getMonedasId = async (req, res) => {
 
 const postMonedas = async (req, res) => {
     try {
-
+        console.log(req.body)
         const {nombre,simbolo} = req.body
 
         const [result] = 
         await pool.query("INSERT INTO moneda (nombre, simbolo) VALUES (?,?)",
         [nombre,simbolo])
+        console.log(result)
 
-        if (result.length > 0) {
+        if (result.affectedRows != 0) {
 
             res.status(200).json(result);
 
@@ -66,18 +67,19 @@ const postMonedas = async (req, res) => {
     }
 }
 
-const putMonedas = async (req, res) => {
+const patchMonedas = async (req, res) => {
     try {
-
+        const {id} = req.params
         const { nombre, simbolo } = req.body
 
         const [result] =
-            await pool.query("INSERT INTO moneda (nombre, simbolo) VALUES (?,?)",
-                [nombre, simbolo])
+            await pool.query("UPDATE INTO moneda SET nombre = IFNULL(?,nombre), simbolo = IFNULL(?,simbolo) WHERE id = ? ",
+                [nombre, simbolo,id])
 
-        if (result.length > 0) {
+        if (result.affectedRows != 0) {
 
-            res.status(200).json(result);
+            const [rows] = await pool.query("SELECT * FROM moneda Where id = ?", [id])
+            res.status(200).json(rows);
 
         } else {
 
@@ -93,15 +95,15 @@ const putMonedas = async (req, res) => {
 const DeleteMonedas = async (req, res) => {
     try {
 
-        const { nombre, simbolo } = req.body
+        
 
         const [result] =
-            await pool.query("INSERT INTO moneda (nombre, simbolo) VALUES (?,?)",
-                [nombre, simbolo])
+            await pool.query("DELETE FROM moneda WHERE id = ?",
+                [req.params.id])
 
-        if (result.length > 0) {
+        if (result.affectedRows != 0) {
 
-            res.status(200).json(result);
+            res.status(200).json("Moneda con el id " + req.params.id + " fue eliminada.");
 
         } else {
 
@@ -120,5 +122,5 @@ const DeleteMonedas = async (req, res) => {
 
 
 export default {
-    getMonedas,getMonedasId,postMonedas,
+    getMonedas,getMonedasId,postMonedas,DeleteMonedas,patchMonedas
 }
