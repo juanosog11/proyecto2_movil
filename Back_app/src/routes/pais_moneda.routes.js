@@ -1,18 +1,18 @@
 import { Router } from "express";
-import Moneda_pais from "../controllers/pais_moneda.controller,js";
+import Moneda_pais from "../controllers/pais_moneda.controller.js";
 
 
 const router = Router()
 
-router.get("/Monedas", Moneda.getMonedas)
+router.get("/Moneda_pais", Moneda_pais.getPaisMoneda)
 
-router.get("/Monedas/:id", Moneda.getMonedasId)
+router.get("/Moneda_pais:id", Moneda_pais.getPaisMonedaId)
 
-router.post("/Monedas", Moneda.postMonedas)
+router.post("/Moneda_pais", Moneda_pais.postPaisMoneda)
 
-router.patch("/Monedas/:id", Moneda.patchMonedas)
+router.patch("/Moneda_pais/:id", Moneda_pais.patchPaisMoneda)
 
-router.delete("/Monedas/:id", Moneda.DeleteMonedas)
+router.delete("/Moneda_pais/:id", Moneda_pais.DeletePaisMoneda)
 
 
 

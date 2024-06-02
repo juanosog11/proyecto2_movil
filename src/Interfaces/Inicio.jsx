@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, Button, TextInput, TouchableOpacity, ScrollView, Dimensions, Platform } from 'react-native';
+import { View, Text, Image, Button, TextInput, TouchableOpacity, ScrollView, Dimensions, Platform, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { estilos_estandar, principal } from "./Estilos"; // Cambiado a Estilos
 
@@ -20,8 +20,130 @@ const sliderData = [
   }
 ];
 
+
+
+const handleRegistrar = () => {
+  console.log('Correo:', correo);
+  console.log('Contraseña:', contrasena);
+};
+
 export default function HomeScreen({ navigation }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [paises, setPaises] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    const fetchAcciones = async () => {
+      try {
+        const response = await fetch('https://api-acciones.onrender.com/api/acciones/pais');
+        const data = await response.json();
+        // console.log(data);
+        setPaises(data);
+      } catch (error) {
+        console.error('Error fetching acciones:', error);
+      } 
+    };
+
+    fetchAcciones();
+  }, []);
+
+
+
+  useEffect(() => {
+    
+    if (paises.length === 0) return;
+
+    const llenarPais = async (pais) => {
+      try {
+        
+        const responsePais = await fetch('http://localhost:3001/Pais', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+          },
+          body: JSON.stringify({ nombre: pais.pais })
+        });
+        const dataPais = await responsePais.json();
+        // console.log(dataPais.id);
+        try {
+          const resMoneda = await fetch(`https://api-acciones.onrender.com/api/acciones/monedaNombrePais/${pais.pais}`)
+          
+          const dataMonedaApi = await resMoneda.json()
+
+          llenarMoneda(dataMonedaApi, dataPais.id)
+
+
+        } catch (error) {
+          console.error('Error al hacer Res moneda', error);
+        }
+
+      } catch (error) {
+        console.error('Error inserting Moneda y pais:', error);
+      }
+    };
+
+    const llenarMoneda = async (dataMonedaApi, dataPais) => {
+      const dataPasi1 = dataPais
+      console.log("datos pais: " + dataPasi1)
+      for (const moneda of dataMonedaApi) {
+        const nombreMoneda = moneda.nombre_moneda;
+        const simboloMoneda = moneda.simbolo_moneda;
+
+        try {
+          const responseMoneda = await fetch('http://localhost:3001/Monedas', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+            },
+            body: JSON.stringify({ nombre: nombreMoneda, simbolo: simboloMoneda })
+          });
+          if (!responseMoneda.ok) {
+            throw new Error(`HTTP error! status: ${responseMoneda.status}`);
+          }
+          const dataMoneda = await responseMoneda.json();
+          
+          llenarPaisMoneda(dataMoneda.id, dataPasi1)
+
+        } catch (error) {
+          onsole.error('Error al hacer POST a /Monedas:', error);
+        }
+      }
+    }
+
+    const llenarPaisMoneda = async (dataMoneda, dataPais) => {
+      console.log("id pais pm " + dataPais);
+      console.log("id Moneda pm " + dataMoneda);
+      
+      
+      try {
+        const responsePaisMoneda = await fetch('http://localhost:3001/Moneda_pais', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ pais_id: dataPais, Moneda_id: dataMoneda })
+        });
+
+        if (!responsePaisMoneda.ok) {
+          console.log(responsePaisMoneda)
+        }
+        const dataPaisMoneda = await responsePaisMoneda.json();
+        console.log("Pais Moneda "+dataPaisMoneda.id);
+      } catch (error) {
+        console.error('Error al hacer POST a /PaisMonedas:', error);
+      }
+    }
+
+    paises.forEach((pais) => {
+      // console.log(pais);
+      llenarPais(pais);
+    });
+  }, [paises]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -63,13 +185,13 @@ export default function HomeScreen({ navigation }) {
 
       {/* Formulario de inicio de sesión */}
       <View style={principal.form}>
-        <Text style={EstiloRegistro.title}>Correo</Text>
-        <TextInput style={EstiloRegistro.input} name="Correo" placeholder='Correo' keyboardType='email-address' />
-        <Text style={EstiloRegistro.title}>Contraseña</Text>
-        <TextInput style={EstiloRegistro.input} name="Contraseña" placeholder='Contraseña' secureTextEntry />
+        <Text style={principal.title}>Correo</Text>
+        <TextInput style={principal.input} name="Correo" placeholder='Correo' keyboardType='email-address' />
+        <Text style={principal.title}>Contraseña</Text>
+        <TextInput style={principal.input} name="Contraseña" placeholder='Contraseña' secureTextEntry />
 
         <View style={principal.buttonContainer}>
-          <Button title='Inicio' onPress={() => navigation.navigate('Principal')} style={principal.button} />
+          <Button title='Inicio' onPress={handleRegistrar} style={principal.button} />
           <Button title='Registrar' onPress={() => navigation.navigate('Registrar')} style={principal.button} />
         </View>
 
