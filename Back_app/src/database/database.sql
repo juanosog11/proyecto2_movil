@@ -31,6 +31,7 @@ use app;
      saldo DECIMAL(15, 2) NOT NULL,
      correo VARCHAR(255) NOT NULL UNIQUE,
      contraseña VARCHAR(255) NOT NULL,
+     imagen VARCHAR(255),
      FOREIGN KEY(pais_id) REFERENCES Pais(id)
  );
 
