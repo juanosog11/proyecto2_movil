@@ -22,16 +22,20 @@ const sliderData = [
 
 
 
-const handleRegistrar = () => {
-  console.log('Correo:', correo);
-  console.log('Contraseña:', contrasena);
-};
+
 
 export default function HomeScreen({ navigation }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [paises, setPaises] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [correo, setCorreo] = useState("");
+  const [contrasena, setContrasena] = useState("");
 
+  const handleRegistrar = () => {
+    console.log('Correo:', correo);
+    console.log('Contraseña:', contrasena);
+    navigation.navigate('Principal')
+  };
 
   useEffect(() => {
     const fetchAcciones = async () => {
@@ -81,7 +85,7 @@ export default function HomeScreen({ navigation }) {
         }
 
       } catch (error) {
-        console.error('Error inserting Moneda y pais:', error);
+        // console.error('Error inserting Moneda y pais:', error);
       }
     };
 
@@ -110,7 +114,7 @@ export default function HomeScreen({ navigation }) {
           llenarPaisMoneda(dataMoneda.id, dataPasi1)
 
         } catch (error) {
-          onsole.error('Error al hacer POST a /Monedas:', error);
+          console.error('Error al hacer POST a /Monedas:', error);
         }
       }
     }
@@ -186,9 +190,9 @@ export default function HomeScreen({ navigation }) {
       {/* Formulario de inicio de sesión */}
       <View style={principal.form}>
         <Text style={principal.title}>Correo</Text>
-        <TextInput style={principal.input} name="Correo" placeholder='Correo' keyboardType='email-address' />
+        <TextInput style={principal.input} name="Correo" onChangeText={setCorreo} placeholder='Correo' keyboardType='email-address' />
         <Text style={principal.title}>Contraseña</Text>
-        <TextInput style={principal.input} name="Contraseña" placeholder='Contraseña' secureTextEntry />
+        <TextInput style={principal.input} name="Contraseña" onChangeText={setContrasena} placeholder='Contraseña' secureTextEntry />
 
         <View style={principal.buttonContainer}>
           <Button title='Inicio' onPress={handleRegistrar} style={principal.button} />
