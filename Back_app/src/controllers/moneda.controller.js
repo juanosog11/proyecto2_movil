@@ -54,7 +54,17 @@ const postMonedas = async (req, res) => {
 
         if (result.affectedRows != 0) {
 
-            res.status(200).json(result);
+            // res.status(200).json(result);
+            // res.send({
+            //     id: result.insertId,
+            //     nombre,
+            //     simbolo,
+            // });
+            res.status(200).send({
+                id: result.insertId,
+                nombre,
+                simbolo,
+            })
 
         } else {
 

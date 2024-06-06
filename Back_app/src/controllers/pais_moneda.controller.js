@@ -45,7 +45,9 @@ const getPaisMonedaId = async (req, res) => {
 const postPaisMoneda = async (req, res) => {
     try {
 
-        const { pais_id, Moneda_id } = req.body
+        const { pais_id, Moneda_id } = req.body;
+
+        console.log(pais_id,Moneda_id)
 
         const [result] =
             await pool.query("INSERT INTO Pais_Moneda (pais_id, Moneda_id) VALUES (?,?)",

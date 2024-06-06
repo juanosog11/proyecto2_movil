@@ -24,9 +24,21 @@ export const getPais = async (req, res) => {
     });
   }
 };
+
 export const createPais = async (req, res) => {
   try {
     const { nombre } = req.body;
+
+    // Verifica si el país ya existe en la base de datos
+    const [existingRows] = await pool.query('SELECT id FROM Pais WHERE nombre = ?', [nombre]);
+
+    if (existingRows.length > 0) {
+      return res.status(400).json({
+        message: 'El país ya existe en la base de datos',
+      });
+    }
+
+    // Inserta el país si no existe
     const [rows] = await pool.query('INSERT INTO Pais(nombre) VALUES (?)', [nombre]);
     res.send({
       id: rows.insertId,
@@ -34,10 +46,11 @@ export const createPais = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: 'Ocurrio algo intente mas tarde',
+      message: 'Ocurrió algo, intente más tarde',
     });
   }
 };
+
 export const deletePais = async (req, res) => {
   try {
     const [result] = await pool.query('DELETE FROM Pais WHERE id = ?', [req.params.id]);

@@ -17,7 +17,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <carga/>
+        
         <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Perfil' component={Perfil} options={{ headerShown: false }} />
         <Stack.Screen name='Registrar' component={Registrar} options={{ headerShown: false }} />
