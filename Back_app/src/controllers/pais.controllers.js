@@ -6,7 +6,7 @@ export const getPaises = async (req, res) => {
     res.json(rows);
   } catch (error) {
     return res.status(500).json({
-      message: 'Ocurrio algo intente mas tarde',
+      message: 'Ocurrio algo intente mas tarde' + error,
     });
   }
 };
