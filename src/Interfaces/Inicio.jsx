@@ -110,7 +110,7 @@ export default function HomeScreen({ navigation }) {
           llenarPaisMoneda(dataMoneda.id, dataPasi1)
 
         } catch (error) {
-          onsole.error('Error al hacer POST a /Monedas:', error);
+          console.error('Error al hacer POST a /Monedas:', error);
         }
       }
     }
