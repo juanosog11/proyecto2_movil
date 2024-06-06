@@ -3,9 +3,16 @@ import { ScrollView, View, Text, Image, ActivityIndicator, TouchableOpacity } fr
 import { estilosPrincipal, estilos_estandar } from './Estilos.jsx';
 import NavBar from '../components/Navbar.jsx';
 
-const Principal = ({ navigation }) => {
+export default function Principal({ navigation, route }){
   const [acciones, setAcciones] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { usuario } = route.params;
+
+  // Ahora puedes acceder a los datos del usuario, por ejemplo:
+  console.log('Principal');
+  console.log('Correo:', usuario.correo);
+  console.log('Contraseña:', usuario.contraseña);
 
   useEffect(() => {
     const fetchAcciones = async () => {
@@ -57,4 +64,4 @@ const Principal = ({ navigation }) => {
   );
 };
 
-export default Principal;
+

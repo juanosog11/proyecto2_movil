@@ -29,7 +29,7 @@ export const createUsuarios_acc = async (req, res) => {
   const { usuario_id, simbolo_empresa, cantidad, precio_compra, fecha_compra } = req.body;
   try {
     const [rows] = await pool.query(
-      'INSERT INTO Usuario_Accion(usuario_id, simbolo_empresa, cantidad, precio_compra, fecha_compra )',
+      'INSERT INTO Usuario_Accion (usuario_id, simbolo_empresa, cantidad, precio_compra, fecha_compra) VALUES (?, ?, ?, ?, ?)',
       [usuario_id, simbolo_empresa, cantidad, precio_compra, fecha_compra]
     );
     res.send({
@@ -41,11 +41,13 @@ export const createUsuarios_acc = async (req, res) => {
       fecha_compra,
     });
   } catch (error) {
+    console.log(error); // Log the error for debugging
     return res.status(500).json({
       message: 'Ocurrio algo intente mas tarde',
     });
   }
 };
+
 
 export const deleteUsuarios_acc = async (req, res) => {
   try {
