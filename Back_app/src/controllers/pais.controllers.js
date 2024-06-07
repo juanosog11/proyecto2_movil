@@ -25,6 +25,21 @@ export const getPais = async (req, res) => {
   }
 };
 
+export const getPaisnom = async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT id FROM Pais WHERE nombre = ?', [nombre]);
+    if (rows.length <= 0)
+      return res.status(404).json({
+        message: 'Employee not found',
+      });
+    res.json(rows[0]);
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Ocurrio algo intente mas tarde',
+    });
+  }
+};
+
 export const createPais = async (req, res) => {
   try {
     const { nombre } = req.body;

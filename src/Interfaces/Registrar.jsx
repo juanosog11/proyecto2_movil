@@ -12,8 +12,51 @@ export default function Registrar({ navigation }) {
   const [telefono, setTelefono] = useState('');
   const [correo, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
+  const [saldo,setSaldo] = useState(0);
+  const [imagen,setImagen] = useState(null)
   const [loading, setLoading] = useState(true);
 
+  const handleRegistrar1 = () => {
+    console.log('Correo:', correo);
+    console.log('Contraseña:', contrasena);
+    console.log('Paises', selectedPais);
+    console.log('Edad', edad);
+    console.log('nombre', nombre);
+    console.log('Telefono',telefono);
+    console.log('saldo',saldo);
+    //navigation.navigate('Principal');
+    llenarUsuario()
+  };
+
+  const llenarUsuario = async () => {
+
+    const CallidPais = await fetch(`http://localhost:3001/Paisn/${selectedPais}`);
+    console.log(CallidPais)
+
+    try {
+      const CrearUsuario = await fetch('http://localhost:3001/Usuario', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+        },
+        body: JSON.stringify({
+          nombre: nombre,
+          pais_id: pais_id,
+          saldo: saldo,
+          correo: correo,
+          constrasena: contrasena,
+          imagen: imagen,
+        }),
+      });
+      const dataUsuario = await CrearUsuario.json();
+      // console.log(dataPais.id);
+    
+    } catch (error) {
+      // console.error('Error inserting Moneda y pais:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchAcciones = async () => {
@@ -106,7 +149,7 @@ export default function Registrar({ navigation }) {
 
         <View style={EstiloRegistro.buttonContainer}>
           <Button title='Cancelar' onPress={() => navigation.navigate('Inicio')} style={EstiloRegistro.button}></Button>
-          <Button title='Registrar' onPress={handleRegistrar} style={EstiloRegistro.button}></Button>
+          <Button title='Registrar' onPress={handleRegistrar1} style={EstiloRegistro.button}></Button>
         </View>
       </View>
     </ScrollView>

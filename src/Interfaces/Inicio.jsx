@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image, Button, TextInput, TouchableOpacity, ScrollView, Dimensions, Platform, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Button, Dimensions, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { estilos_estandar, principal } from "./Estilos"; // Cambiado a Estilos
 
