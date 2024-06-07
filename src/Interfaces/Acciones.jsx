@@ -3,9 +3,12 @@ import { ScrollView, View, Text, ActivityIndicator, TouchableOpacity, StyleSheet
 import { estilosPrincipal } from './Estilos.jsx';
 import NavBar from '../components/Navbar.jsx';
 
-const Ventas = ({ navigation }) => {
+const Ventas = ({ navigation, route }) => {
     const [accionesCompradas, setAccionesCompradas] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const { usuario } = route.params;
+    console.log('acciones usuario', JSON.stringify(usuario));
 
     useEffect(() => {
         const fetchAccionesCompradas = async () => {
@@ -24,7 +27,7 @@ const Ventas = ({ navigation }) => {
     }, []);
 
     const handleAccionPress = (simbolo) => {
-        navigation.navigate('Venta', { simbolo });
+        navigation.navigate('Venta', { simbolo },{usuario});
     };
 
     if (loading) {
@@ -47,7 +50,7 @@ const Ventas = ({ navigation }) => {
                 {/* ))} */}
             {/* </ScrollView> */}
 
-            <NavBar navigation={navigation} />
+            <NavBar navigation={navigation} usuario={usuario} />
         </View>
     );
 };

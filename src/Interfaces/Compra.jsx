@@ -4,13 +4,16 @@ import { estilos_estandar, compra } from "./Estilos.jsx";
 import NavBar from '../components/Navbar.jsx';
 import LineChart from '../components/LinesChart.jsx';
 
-export default function Compra({ route, navigation }) {
+export default function Compra({ navigation, route, route2  }) {
     const { simbolo } = route.params;
     const [accion, setAccion] = useState([]);
     const [DatosH, setDatosH] = useState([]);
     const [loading, setLoading] = useState(true);
     const [cantidad, setCantidad] = useState(0);
     const [total, setTotal] = useState(0);
+
+    const { usuario } = route2.params;
+    console.log('comprar acciones', JSON.stringify(usuario));
 
     useEffect(() => {
         const fetchAcciones = async () => {
