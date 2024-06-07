@@ -25,6 +25,24 @@ export const getUsuario_acc = async (req, res) => {
   }
 };
 
+export const getUsuario_acc_user = async (req, res) => {
+  
+  const id = req.params.id
+  try {
+    const [rows] = await pool.query('SELECT * FROM Usuario_Accion WHERE usuario_id = ?', [id]);
+    
+    if (rows.length <= 0)
+      return res.status(404).json({
+        message: 'Employee not found',
+      });
+    res.json(rows);
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Ocurrio algo intente mas tarde',
+    });
+  }
+};
+
 export const createUsuarios_acc = async (req, res) => {
   const { usuario_id, simbolo_empresa, cantidad, precio_compra, fecha_compra } = req.body;
   try {

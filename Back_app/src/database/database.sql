@@ -45,5 +45,3 @@ use app;
      fecha_compra DATE NOT NULL,
      FOREIGN KEY(usuario_id) REFERENCES Usuario(id)
  );
-
-  

@@ -14,6 +14,7 @@ export default function Compra({ navigation, route }) {
     const [loading, setLoading] = useState(true);
     const [cantidad, setCantidad] = useState(0);
     const [total, setTotal] = useState(0);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const fetchAcciones = async () => {
@@ -47,9 +48,54 @@ export default function Compra({ navigation, route }) {
     }
 
 
-    const handleCompra = () => {
-        alert(`Has comprado ${cantidad} acciones de ${simbolo} por un total de ${total}`);
+    const handleCompra = async () => {
+        if (cantidad !== 0) {
+            setError(''); // Limpiar el mensaje de error si hay una cantidad válida
+            alert(`Has comprado ${cantidad} acciones de ${simbolo} por un total de ${total}`);
+            try {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0'); // Los meses comienzan en 0, así que sumamos 1 y rellenamos con ceros a la izquierda
+                const day = String(now.getDate()).padStart(2, '0'); // Rellenamos con ceros a la izquierda
+
+                const formattedDate = `${year}-${month}-${day}`;
+
+                const usuariAccion = {
+                    usuario_id: usuario.id,
+                    simbolo_empresa: simbolo,
+                    cantidad: cantidad,
+                    precio_compra: accion.precio,
+                    fecha_compra: formattedDate,
+                };
+
+                console.log(usuariAccion);
+
+                const response = await fetch('http://localhost:3001/UsuarioAccion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+                    },
+                    body: JSON.stringify(usuariAccion)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error al insertar los datos');
+                }
+
+                const result = await response.json();
+                console.log('Datos insertados:', result);
+                navigation.navigate('Principal', { usuario })
+
+            } catch (error) {
+                console.error('Error en la compra:', error);
+            }
+        } else {
+            setError('Por favor, ingrese una cantidad válida'); // Mostrar el mensaje de error
+        }
     };
+
 
     const labelsH = DatosH.map(dato => dato.fecha);
     const dataH = DatosH.map(dato => dato.precio);
@@ -87,7 +133,9 @@ export default function Compra({ navigation, route }) {
                     />
                     <Text style={compra.priceText}>Precio por acción: {accion.precio}</Text>
                     <Text style={compra.totalText}>Total: {total}</Text>
+                    {error ? <Text style={{ color: 'red', marginTop: 10 }}>{error}</Text> : null}
                     <Button title="Comprar" onPress={handleCompra} />
+
                 </View>
             </ScrollView>
 
