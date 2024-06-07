@@ -29,28 +29,40 @@ export default function HomeScreen({ navigation }) {
   const [paises, setPaises] = useState([]);
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleIniciar = async () => {
-    console.log('Correo:', correo);
-    console.log('Contraseña:', contrasena);
+    
+    if (correo != "" & contrasena != "") {
+      try {
+        // Enviar una solicitud al backend para verificar el correo y la contraseña
+        const response = await fetch('http://localhost:3001/Usuario/' + correo + '/' + contrasena);
+        const data = await response.json();
 
-    try {
-      // Enviar una solicitud al backend para verificar el correo y la contraseña
-      const response = await fetch('http://localhost:3001/Usuario/' + correo + '/' + contrasena);
-      const data = await response.json();
+        // Verificar si se encontró el usuario
+        if (response.ok) {
+          // Navegar al componente 'Principal' y pasar el usuario como parámetro
+          navigation.navigate('Principal', { usuario: data });
+        } else {
+          // Mostrar un mensaje de error si no se encontró el usuario
+          console.error(data.message);
+          setErrorMessage(data.message)
 
-      // Verificar si se encontró el usuario
-      if (response.ok) {
-        // Navegar al componente 'Principal' y pasar el usuario como parámetro
-        navigation.navigate('Principal', { usuario: data });
-      } else {
-        // Mostrar un mensaje de error si no se encontró el usuario
-        console.error(data.message);
-        
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        setErrorMessage('Ocurrió un error, por favor intente más tarde ');
       }
-    } catch (error) {
-      console.error('Error:', error);
     }
+    else{
+      if (correo === "") {
+        setErrorMessage('Por favor ingrese un correo y/o contraseña ');
+      } else {
+        setErrorMessage('Por favor ingrese un contraseña ');
+      }
+    }
+
+    
   };
 
 
@@ -205,9 +217,11 @@ export default function HomeScreen({ navigation }) {
       </ScrollView>
 
 
+      
 
       {/* Formulario de inicio de sesión */}
       <View style={principal.form}>
+        {errorMessage ? <Text style={principal.errorText}>{errorMessage}</Text> : null}
         <Text style={principal.title}>Correo</Text>
         <TextInput style={principal.input} name="Correo" onChangeText={setCorreo} placeholder='Correo' keyboardType='email-address' />
         <Text style={principal.title}>Contraseña</Text>
