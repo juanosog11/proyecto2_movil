@@ -5,19 +5,22 @@ import {
   createUsuarios_acc,
   updateUsuarios_acc,
   deleteUsuarios_acc,
+  getUsuario_acc_user,
 } from '../controllers/usuario_accion.controller.js';
 
 
 const router = Router();
 
-router.get('/Pais', getUsuarios_acc);
+router.get('/UsuarioAccion', getUsuarios_acc);
 
-router.get('/Pais/:id', getUsuario_acc);
+router.get('/UsuarioAccion/:id', getUsuario_acc);
 
-router.post('/Pais', createUsuarios_acc);
+router.get('/UsuarioAccionUser/usuario/:id', getUsuario_acc_user);
 
-router.patch('/Pais/:id', updateUsuarios_acc);
+router.post('/UsuarioAccion', createUsuarios_acc);
 
-router.delete('/Pais/:id', deleteUsuarios_acc);
+router.patch('/UsuarioAccion/:id', updateUsuarios_acc);
+
+router.delete('/UsuarioAccion/:id', deleteUsuarios_acc);
 
 export default router;

@@ -3,14 +3,15 @@ import { View, Text, TextInput, Button, ActivityIndicator, Alert } from 'react-n
 import { estilosVenta } from './Estilos.jsx';
 import NavBar from '../components/Navbar.jsx';
 
-export default function Venta({ navigation,route,route2}) {
-    const simbolo = route?.params?.simbolo || 'AAPL';
+export default function Venta({ navigation,route}) {
+    const { simbolo } = route.params;
+    const { usuario } = route.params;
     const [accion, setAccion] = useState({});
     const [cantidad, setCantidad] = useState('');
     const [accionesUsuario, setAccionesUsuario] = useState(0);
     const [loading, setLoading] = useState(true);
 
-    const { usuario } = route2.params;
+    
     console.log('Venta accion:', JSON.stringify(usuario));
 
     useEffect(() => {
