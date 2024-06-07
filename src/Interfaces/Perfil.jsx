@@ -1,10 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Image, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import { estilosPerfil, estilos_estandar } from "./Estilos.jsx";
 import NavBar from '../components/Navbar.jsx';
 
 export default function Perfil({ navigation, route }) {
-  
+
+  const [imagen,setImagen] = useState('');
+  const [nombre,setNombre] = useState('');
+  const [pais,setPaises] = useState('');
+  const [acciones, setAcciones] = useState('');
+  const [saldo,setSaldo] = useState('');
+  const [correo,setCorreo] = useState('');
+  const [numero, setNumero] = useState('');
+
+  const handlePerfil = async () =>{
+    try{
+    console.log(usuario)
+    const MostrarUsuario = await fetch('http://localhost:3001/Usuario',{
+    method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+        },
+        body: JSON.stringify(usuario),
+        });
+
+        const dataU = await MostrarUsuario.json();
+        setImagen(dataU.imagen);
+        setNombre(dataU.nombre);
+        setPaises(dataU.pais);
+        setAcciones(dataU.acciones);
+        setSaldo(dataU.saldo);
+        setCorreo(dataU.correo);
+        setNumero(dataU.numero);
+
+        console.log(dataU)
+
+    }catch(error){
+
+    }
+    console.log(dataU);
+  }
+
+  useEffect(() => {
+    handlePerfil();
+  }, []);
+
   const { usuario } = route.params;
   console.log('Perfil:', JSON.stringify(usuario));
 
@@ -20,27 +62,27 @@ export default function Perfil({ navigation, route }) {
             <Text style={estilosPerfil.title}>Datos del Usuario</Text>
             <View style={estilosPerfil.userData}>
               <Text style={estilosPerfil.userDataLabel}>Nombre y apellidos:</Text>
-              <Text>John Doe</Text>
+              <Text>{nombre}</Text>
             </View>
             <View style={estilosPerfil.userData}>
               <Text style={estilosPerfil.userDataLabel}>País:</Text>
-              <Text>Estados Unidos</Text>
+              <Text>{pais}</Text>
             </View>
             <View style={estilosPerfil.userData}>
               <Text style={estilosPerfil.userDataLabel}>Acciones:</Text>
-              <Text>100</Text>
+              <Text>{acciones}</Text>
             </View>
             <View style={estilosPerfil.userData}>
               <Text style={estilosPerfil.userDataLabel}>Saldo:</Text>
-              <Text>$1000</Text>
+              <Text>${saldo}</Text>
             </View>
             <View style={estilosPerfil.userData}>
               <Text style={estilosPerfil.userDataLabel}>Correo:</Text>
-              <Text>example@example.com</Text>
+              <Text>{correo}</Text>
             </View>
             <View style={estilosPerfil.userData}>
               <Text style={estilosPerfil.userDataLabel}>Número:</Text>
-              <Text>+1234567890</Text>
+              <Text>+{numero}</Text>
             </View>
 
             <View style={estilosPerfil.buttonContainer}>
