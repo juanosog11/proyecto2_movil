@@ -29,8 +29,20 @@ export default function Perfil({ navigation, route }) {
     }
   };
 
+  const Accion = async () =>{
+    try{
+      const BuscarAcc = await fetch(`http://localhost:3001/UsuarioAccionCan/${usuario.id}`)
+      const datacant = await BuscarAcc.json();
+      setAcciones(datacant);
+      console.log('cantidad: ',cant );
+    }catch(error){
+
+    }
+  }
+
   useEffect(() => {
-    PaisB(); // Llamar a la función cuando se monte el componente
+    PaisB();
+    Accion(); // Llamar a la función cuando se monte el componente
   }, []);
 
   return (
@@ -53,7 +65,17 @@ export default function Perfil({ navigation, route }) {
           </View>
           <View style={estilosPerfil.userData}>
             <Text style={estilosPerfil.userDataLabel}>Acciones:</Text>
-            <Text>{usuario.acciones}</Text>
+            <Text>
+              {Array.isArray(acciones) ? (
+                acciones.map((accion, index) => (
+                  <Text key={index}>
+                    {accion.nombre} - {accion.cantidad}
+                  </Text>
+                ))
+              ) : (
+                <Text>No hay acciones disponibles</Text>
+              )}
+            </Text>
           </View>
           <View style={estilosPerfil.userData}>
             <Text style={estilosPerfil.userDataLabel}>Saldo:</Text>

@@ -6,12 +6,15 @@ import {
   updateUsuarios_acc,
   deleteUsuarios_acc,
   getUsuario_acc_user,
+  getUsuario_acc_can,
 } from '../controllers/usuario_accion.controller.js';
 
 
 const router = Router();
 
 router.get('/UsuarioAccion', getUsuarios_acc);
+
+router.get('/UsuarioAccionCan/:usuario_id', getUsuario_acc_can);
 
 router.get('/UsuarioAccion/:id', getUsuario_acc);
 
