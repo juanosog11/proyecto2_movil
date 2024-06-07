@@ -5,7 +5,6 @@ import NavBar from '../components/Navbar.jsx';
 
 export default function Principal({ navigation, route }){
   const [acciones, setAcciones] = useState([]);
-  const [paisUsuario, setPaisUsuario] = useState("");
   const [loading, setLoading] = useState(true);
 
   const { usuario } = route.params;
@@ -39,10 +38,11 @@ export default function Principal({ navigation, route }){
     fetchAcciones();
   }, [usuario.pais_id]);
 
-  const handleAccionPress = (simbolo) => {
+  const handleAccionPress = (simbolo,usuarioH) => {
     // Aquí puedes navegar a otra pantalla pasando el símbolo de la acción como parámetro
-    console.log(simbolo)
-    navigation.navigate('Compra', { simbolo },{usuario});
+    console.log(usuarioH)
+
+    navigation.navigate('Compra', { simbolo },usuarioH);
   };
 
   if (loading) {
@@ -58,7 +58,7 @@ export default function Principal({ navigation, route }){
 
       <ScrollView style={estilosPrincipal.scrollView}>
         {acciones.map((accion) => (
-          <TouchableOpacity key={accion.simbolo} onPress={() => handleAccionPress(accion.simbolo, usuario)}>
+          <TouchableOpacity key={accion.simbolo} onPress={() => navigation.navigate('Compra', { simbolo: accion.simbolo, usuario })}>
             <View style={estilosPrincipal.accionContainer}>
               <Text style={estilosPrincipal.accionNombre}>{accion.nombre}</Text>
               <Text style={estilosPrincipal.accionPrecio}>Precio: {accion.precio}</Text>
