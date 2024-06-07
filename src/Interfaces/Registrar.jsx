@@ -12,61 +12,15 @@ export default function Registrar({ navigation }) {
   const [telefono, setTelefono] = useState('');
   const [correo, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
-  const [saldo,setSaldo] = useState(0);
-  const [imagen,setImagen] = useState(null);
+  const [saldo, setSaldo] = useState(0);
+  const [imagen, setImagen] = useState(null);
   const [loading, setLoading] = useState(true);
-  
-  
 
 
-  const llenarUsuario = async () => {
-    var idPais = 0
-    try {
-      const CallidPais = await fetch(`http://localhost:3001/Paisn/${selectedPais}`);
-      const dataPais = await CallidPais.json()
-      console.log(dataPais.id)
-      idPais = dataPais.id
 
-    } catch (error) {
-      console.log("error al traer id del pais")
-    }
-    
 
-    try {
-      console.log("id pais: " + idPais)
-      const usuario = {
-        nombre: nombre,
-        pais_id: idPais,
-        saldo: saldo,
-        correo: correo,
-        constrasena: contrasena,
-        imagen: imagen,
-      };
-       console.log(usuario);
-      // const CrearUsuario = await fetch('http://localhost:3001/Usuario', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'Access-Control-Allow-Origin': '*',
-      //     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-      //   },
-      //   body: JSON.stringify({
-      //     nombre: nombre,
-      //     pais_id: idPais,
-      //     saldo: saldo,
-      //     correo: correo,
-      //     constrasena: contrasena,
-      //     imagen: imagen,
-      //   }),
-      // });
-      // const dataUsuario = await CrearUsuario.json();
-      // console.log(dataUsuario)
-      // return true
-    
-    } catch (error) {
-      console.error('Error al registrar usuario', error);
-    }
-  };
+
+
 
   useEffect(() => {
     const fetchAcciones = async () => {
@@ -89,19 +43,49 @@ export default function Registrar({ navigation }) {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
 
-  const handleRegistrar = () => {
-    console.log('Correo:', correo);
-    console.log('Contraseña:', contrasena);
-    console.log('Paises', selectedPais);
-    console.log('Edad', edad);
-    console.log('nombre', nombre);
-    console.log('Telefono', telefono);
-    console.log('saldo', saldo);
+  const handleRegistrar = async () => {
+    try {
+      // Obtener el id del país seleccionado
+      const CallidPais = await fetch(`http://localhost:3001/Paisn/${selectedPais}`);
+      const dataPais = await CallidPais.json();
+      const idPais = dataPais.id;
+      console.log("ID del país:", idPais);
+
+      // Crear el objeto usuario
+      const usuario = {
+        nombre: nombre,
+        pais_id: idPais,
+        saldo: saldo,
+        correo: correo,
+        contraseña: contrasena,  // Corregido typo aquí
+        imagen: imagen,
+      };
+      console.log("Usuario a crear:", usuario);
+
+      // Enviar solicitud para crear el usuario
+      const CrearUsuario = await fetch('http://localhost:3001/Usuario', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+        },
+        body: JSON.stringify(usuario),
+      });
+      const dataUsuario = await CrearUsuario.json();
+      console.log("Respuesta del servidor:", dataUsuario);
+      navigation.navigate('Principal', { usuario: usuario });
 
 
-    if (llenarUsuario()) {
-      navigation.navigate('Principal');
+    } catch (error) {
+      console.error('Error al registrar usuario', error);
+      return false;
     }
+
+
+    
+      
+    
   };
 
   return (
