@@ -13,8 +13,9 @@ export default function Registrar({ navigation }) {
   const [correo, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
   const [saldo,setSaldo] = useState(0);
-  const [imagen,setImagen] = useState(null)
+  const [imagen,setImagen] = useState(null);
   const [loading, setLoading] = useState(true);
+  cosnt [id_pais,serId_pais] = useState("");
 
   const handleRegistrar1 = () => {
     console.log('Correo:', correo);
@@ -24,14 +25,18 @@ export default function Registrar({ navigation }) {
     console.log('nombre', nombre);
     console.log('Telefono',telefono);
     console.log('saldo',saldo);
-    //navigation.navigate('Principal');
-    llenarUsuario()
+    
+    
+    if (llenarUsuario()) {
+      navigation.navigate('Principal');
+    }
   };
 
   const llenarUsuario = async () => {
 
     const CallidPais = await fetch(`http://localhost:3001/Paisn/${selectedPais}`);
-    console.log(CallidPais)
+    const dataPais = await CallidPais.json()
+    serId_pais(dataPais)
 
     try {
       const CrearUsuario = await fetch('http://localhost:3001/Usuario', {
@@ -43,7 +48,7 @@ export default function Registrar({ navigation }) {
         },
         body: JSON.stringify({
           nombre: nombre,
-          pais_id: pais_id,
+          pais_id: id_pais,
           saldo: saldo,
           correo: correo,
           constrasena: contrasena,
@@ -51,10 +56,11 @@ export default function Registrar({ navigation }) {
         }),
       });
       const dataUsuario = await CrearUsuario.json();
-      // console.log(dataPais.id);
+      console.log(dataUsuario)
+      return true
     
     } catch (error) {
-      // console.error('Error inserting Moneda y pais:', error);
+      console.error('Error al registrar usuario', error);
     }
   };
 

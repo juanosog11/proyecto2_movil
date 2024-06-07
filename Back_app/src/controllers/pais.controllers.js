@@ -27,11 +27,12 @@ export const getPais = async (req, res) => {
 
 export const getPaisnom = async (req, res) => {
   try {
-    const [rows] = await pool.query('SELECT id FROM Pais WHERE nombre = ?', [nombre]);
+    const [rows] = await pool.query('SELECT id FROM Pais WHERE nombre = ?', [req.params.nombre]);
     if (rows.length <= 0)
       return res.status(404).json({
         message: 'Employee not found',
       });
+      console.log(rows[0])
     res.json(rows[0]);
   } catch (error) {
     return res.status(500).json({
