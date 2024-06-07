@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, Image, ActivityIndicator, TextInput, Button } from 'react-native';
-import { estilos_estandar, compra } from "./Estilos.jsx";
-import NavBar from '../components/Navbar.jsx';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Button, Image, ScrollView, Text, TextInput, View } from 'react-native';
 import LineChart from '../components/LinesChart.jsx';
+import NavBar from '../components/Navbar.jsx';
+import { compra, estilos_estandar } from "./Estilos.jsx";
 
-export default function Compra({ navigation, route, route2  }) {
+export default function Compra({ navigation, route }) {
+
     const { simbolo } = route.params;
+    const { usuario } = route.params;
+
     const [accion, setAccion] = useState([]);
     const [DatosH, setDatosH] = useState([]);
     const [loading, setLoading] = useState(true);
     const [cantidad, setCantidad] = useState(0);
     const [total, setTotal] = useState(0);
 
-    const { usuario } = route2.params;
-    console.log('comprar acciones', JSON.stringify(usuario));
-
     useEffect(() => {
         const fetchAcciones = async () => {
             try {
-                console.log(simbolo);
                 const response = await fetch(`https://api-acciones.onrender.com/api/acciones/${simbolo}`);
                 const data = await response.json();
                 const response2 = await fetch(`https://api-acciones.onrender.com/api/datos_historicos/${simbolo}`);
@@ -35,7 +34,7 @@ export default function Compra({ navigation, route, route2  }) {
         };
 
         fetchAcciones();
-    }, [simbolo]);
+    }, []); // Añadir un array vacío aquí para que useEffect se ejecute solo una vez
 
     useEffect(() => {
         if (accion.precio) {
@@ -47,12 +46,13 @@ export default function Compra({ navigation, route, route2  }) {
         return <ActivityIndicator size="large" color="#0000ff" />;
     }
 
-    const labelsH = DatosH.map(dato => dato.fecha);
-    const dataH = DatosH.map(dato => dato.precio);
 
     const handleCompra = () => {
         alert(`Has comprado ${cantidad} acciones de ${simbolo} por un total de ${total}`);
     };
+
+    const labelsH = DatosH.map(dato => dato.fecha);
+    const dataH = DatosH.map(dato => dato.precio);
 
     return (
         <View style={estilos_estandar.container}>
@@ -91,7 +91,7 @@ export default function Compra({ navigation, route, route2  }) {
                 </View>
             </ScrollView>
 
-            <NavBar navigation={navigation} />
+            <NavBar navigation={navigation} usuario={usuario} />
         </View>
     );
 }
