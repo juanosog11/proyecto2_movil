@@ -27,15 +27,44 @@ const sliderData = [
 export default function HomeScreen({ navigation }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [paises, setPaises] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleRegistrar = () => {
-    console.log('Correo:', correo);
-    console.log('Contraseña:', contrasena);
-    navigation.navigate('Principal')
+  const handleIniciar = async () => {
+    
+    if (correo != "" & contrasena != "") {
+      try {
+        // Enviar una solicitud al backend para verificar el correo y la contraseña
+        const response = await fetch('http://localhost:3001/Usuario/' + correo + '/' + contrasena);
+        const data = await response.json();
+
+        // Verificar si se encontró el usuario
+        if (response.ok) {
+          // Navegar al componente 'Principal' y pasar el usuario como parámetro
+          navigation.navigate('Principal', { usuario: data });
+        } else {
+          // Mostrar un mensaje de error si no se encontró el usuario
+          console.error(data.message);
+          setErrorMessage(data.message)
+
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        setErrorMessage('Ocurrió un error, por favor intente más tarde ');
+      }
+    }
+    else{
+      if (correo === "") {
+        setErrorMessage('Por favor ingrese un correo y/o contraseña ');
+      } else {
+        setErrorMessage('Por favor ingrese un contraseña ');
+      }
+    }
+
+    
   };
+
 
   useEffect(() => {
     const fetchAcciones = async () => {
@@ -187,15 +216,19 @@ export default function HomeScreen({ navigation }) {
         ))}
       </ScrollView>
 
+
+      
+
       {/* Formulario de inicio de sesión */}
       <View style={principal.form}>
+        {errorMessage ? <Text style={principal.errorText}>{errorMessage}</Text> : null}
         <Text style={principal.title}>Correo</Text>
         <TextInput style={principal.input} name="Correo" onChangeText={setCorreo} placeholder='Correo' keyboardType='email-address' />
         <Text style={principal.title}>Contraseña</Text>
         <TextInput style={principal.input} name="Contraseña" onChangeText={setContrasena} placeholder='Contraseña' secureTextEntry />
 
         <View style={principal.buttonContainer}>
-          <Button title='Inicio' onPress={handleRegistrar} style={principal.button} />
+          <Button title='Inicio' onPress={handleIniciar} style={principal.button} />
           <Button title='Registrar' onPress={() => navigation.navigate('Registrar')} style={principal.button} />
         </View>
 

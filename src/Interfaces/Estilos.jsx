@@ -104,6 +104,12 @@ export const principal = StyleSheet.create({
         width: '100%',
         alignItems: "center",
     },
+    errorText: {
+        color: 'white',
+        marginBottom: 10,
+        backgroundColor:'red',
+        fontSize: 14,
+    },
 });
 
 export const estilosPrincipal = StyleSheet.create({
