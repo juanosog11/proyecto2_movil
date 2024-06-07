@@ -25,11 +25,10 @@ export default function Registrar({ navigation }) {
     console.log('nombre', nombre);
     console.log('Telefono',telefono);
     console.log('saldo',saldo);
-    
-    
-    if (llenarUsuario()) {
+
+    llenarUsuario()
       navigation.navigate('Principal');
-    }
+    
   };
 
   const llenarUsuario = async () => {
