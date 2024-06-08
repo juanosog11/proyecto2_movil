@@ -111,21 +111,25 @@ export const deleteUsuario = async (req, res) => {
 export const updateUsuario = async (req, res) => {
   const { id } = req.params;
   const { nombre, pais_id, saldo, correo, contraseña, imagen } = req.body;
-  try {
+
+  // try {
     const [result] = await pool.query(
-      'UPDATE Usuario SET nombre = IFNULL(?, nombre),pais_id = IFNULL(?, pais_id),saldo = IFNULL(?, saldo),correo = IFNULL(?, correo),contraseña = IFNULL(?, contraseña),imagen = (?, imagen) WHERE id = ?',
+      'UPDATE Usuario SET nombre = IFNULL(?, nombre), pais_id = IFNULL(?, pais_id), saldo = IFNULL(?, saldo), correo = IFNULL(?, correo), contraseña = IFNULL(?, contraseña), imagen = IFNULL(?, imagen) WHERE id = ?',
       [nombre, pais_id, saldo, correo, contraseña, imagen, id]
     );
-    if (result.affectedRows === 0)
+
+    if (result.affectedRows === 0) {
       return res.status(404).json({
         message: 'Employee not found',
       });
+    }
 
     const [rows] = await pool.query('SELECT * FROM Usuario WHERE id = ?', [id]);
     res.json(rows[0]);
-  } catch (error) {
-    return res.status(500).json({
-      message: 'Ocurrio algo intente mas tarde',
-    });
-  }
+  // } catch (error) {
+  //   return res.status(500).json({
+  //     message: 'Ocurrio algo intente mas tarde',
+  //   });
+  // }
 };
+

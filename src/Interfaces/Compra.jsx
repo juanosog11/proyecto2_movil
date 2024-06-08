@@ -47,54 +47,110 @@ export default function Compra({ navigation, route }) {
         return <ActivityIndicator size="large" color="#0000ff" />;
     }
 
+    const no_existe = async () => {
+        alert(`Has comprado ${cantidad} acciones de ${simbolo} por un total de ${total}`);
+        try {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // Los meses comienzan en 0, así que sumamos 1 y rellenamos con ceros a la izquierda
+            const day = String(now.getDate()).padStart(2, '0'); // Rellenamos con ceros a la izquierda
+
+            const formattedDate = `${year}-${month}-${day}`;
+
+            const usuariAccion = {
+                usuario_id: usuario.id,
+                simbolo_empresa: simbolo,
+                cantidad: cantidad,
+                precio_compra: accion.precio,
+                fecha_compra: formattedDate,
+            };
+
+            console.log(usuariAccion);
+
+            const response = await fetch('http://localhost:3001/UsuarioAccion', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+                },
+                body: JSON.stringify(usuariAccion)
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al insertar los datos');
+            }
+
+            const result = await response.json();
+            console.log('Datos insertados:', result);
+            navigation.navigate('Principal', { usuario })
+
+        } catch (error) {
+            console.error('Error en la compra:', error);
+        }
+    }
+
 
     const handleCompra = async () => {
         if (cantidad !== 0) {
             setError(''); // Limpiar el mensaje de error si hay una cantidad válida
-            alert(`Has comprado ${cantidad} acciones de ${simbolo} por un total de ${total}`);
+
             try {
-                const now = new Date();
-                const year = now.getFullYear();
-                const month = String(now.getMonth() + 1).padStart(2, '0'); // Los meses comienzan en 0, así que sumamos 1 y rellenamos con ceros a la izquierda
-                const day = String(now.getDate()).padStart(2, '0'); // Rellenamos con ceros a la izquierda
-
-                const formattedDate = `${year}-${month}-${day}`;
-
-                const usuariAccion = {
-                    usuario_id: usuario.id,
-                    simbolo_empresa: simbolo,
-                    cantidad: cantidad,
-                    precio_compra: accion.precio,
-                    fecha_compra: formattedDate,
-                };
-
-                console.log(usuariAccion);
-
-                const response = await fetch('http://localhost:3001/UsuarioAccion', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-                    },
-                    body: JSON.stringify(usuariAccion)
-                });
-
+                // Hacer la solicitud para verificar si la empresa existe por su símbolo
+                const response = await fetch(`http://localhost:3001/UsuarioAccionUser/simbolo/${simbolo}`);
                 if (!response.ok) {
-                    throw new Error('Error al insertar los datos');
+                    throw new Error('Error al buscar la empresa');
                 }
 
-                const result = await response.json();
-                console.log('Datos insertados:', result);
-                navigation.navigate('Principal', { usuario })
+                const data = await response.json();
 
+                if (data.length > 0) {
+                    // Si la empresa existe, actualizamos la cantidad de acciones
+                    const empresa = data[0];
+                    const nuevaCantidad = empresa.cantidad + cantidad;
+
+                    const now = new Date();
+                    const year = now.getFullYear();
+                    const month = String(now.getMonth() + 1).padStart(2, '0'); // Los meses comienzan en 0, así que sumamos 1 y rellenamos con ceros a la izquierda
+                    const day = String(now.getDate()).padStart(2, '0'); // Rellenamos con ceros a la izquierda
+
+                    const formattedDate = `${year}-${month}-${day}`;
+
+
+                    const updateResponse = await fetch(`http://localhost:3001/UsuarioAccion/${empresa.id}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            usuario_id: empresa.usuario_id,
+                            simbolo_empresa: empresa.simbolo_empresa,
+                            cantidad: nuevaCantidad,
+                            precio_compra: empresa.precio_compra,
+                            fecha_compra: formattedDate
+                        })
+                    });
+
+                    if (!updateResponse.ok) {
+                        throw new Error('Error al actualizar la cantidad de acciones');
+                    }
+
+                    const updatedEmpresa = await updateResponse.json();
+                    console.log('Cantidad de acciones actualizada exitosamente:', updatedEmpresa);
+                    navigation.navigate('Principal', { usuario })
+                } else {
+                    // Si la empresa no existe, llama a la función no_existe()
+                    no_existe();
+                }
             } catch (error) {
-                console.error('Error en la compra:', error);
+                console.log("error: ", error);
+                setError('Ocurrió un error al realizar la compra. Inténtalo de nuevo más tarde.');
             }
         } else {
             setError('Por favor, ingrese una cantidad válida'); // Mostrar el mensaje de error
         }
     };
+
 
 
     const labelsH = DatosH.map(dato => dato.fecha);
