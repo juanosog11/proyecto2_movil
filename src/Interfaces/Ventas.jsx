@@ -5,7 +5,7 @@ import NavBar from '../components/Navbar.jsx';
 
 export default function Venta({ navigation, route }) {
     const { simbolo } = route.params;
-    const { usuario } = route.params;
+    const [usuario, setUsuario] = useState(route.params.usuario);
     const [accion, setAccion] = useState({});
     const [cantidad, setCantidad] = useState('');
     const [accionesUsuario, setAccionesUsuario] = useState([]);
@@ -72,10 +72,13 @@ export default function Venta({ navigation, route }) {
                     body: JSON.stringify({ saldo: nuevoSaldo })
                 });
 
+                
                 if (updateResponse.ok) {
                     console.log('Saldo actualizado exitosamente.');
+                    setUsuario(updateResponse)
                 } else {
                     console.log('Error al actualizar el saldo.');
+                    
                 }
             } catch (error) {
                 console.log('Error al actualizar el saldo del usuario:', error);
@@ -94,6 +97,8 @@ export default function Venta({ navigation, route }) {
                 if (response.ok) {
                     console.log('Acciones vendidas exitosamente.');
                     await updateSaldoUsuario(total);
+                    console.log(usuario)
+                    
                     navigation.navigate('Principal', { usuario });
                 } else {
                     console.log('Error al vender acciones.');
@@ -121,6 +126,7 @@ export default function Venta({ navigation, route }) {
                 if (response.ok) {
                     console.log('Cantidad de acciones actualizada exitosamente.');
                     await updateSaldoUsuario(precioTotal);
+                    console.log(usuario)
                     navigation.navigate('Principal', { usuario });
                 } else {
                     console.log('Error al actualizar la cantidad de acciones.');

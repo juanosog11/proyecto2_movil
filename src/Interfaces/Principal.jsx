@@ -10,10 +10,11 @@ export default function Principal({ navigation, route }){
   const [usuario, setUsuario] = useState(route.params.usuario);
   const [usuarioLoading, setUsuarioLoading] = useState(true);
 
-  // Ahora puedes acceder a los datos del usuario, por ejemplo:
-  console.log('Principal');
-  console.log('Correo:', usuario.correo);
-  console.log('Contraseña:', usuario.contraseña);
+  useEffect(() => {
+    console.log('Principal');
+    console.log('Correo:', usuario.correo);
+    console.log('Contraseña:', usuario.contraseña);
+  }, [usuario]);
 
   useEffect(() => {
     const fetchUsuario = async () => {
@@ -21,6 +22,8 @@ export default function Principal({ navigation, route }){
         const responseUsuario = await fetch(`http://localhost:3001/Usuario/${usuario.id}`);
         const dataUsuario = await responseUsuario.json();
         setUsuario(dataUsuario);
+        console.log("principal actualizar", dataUsuario);
+        console.log("Usuario", usuario);
       } catch (error) {
         console.error('Error fetching usuario:', error);
       } finally {
@@ -28,6 +31,11 @@ export default function Principal({ navigation, route }){
       }
     };
 
+    fetchUsuario();
+
+  }, []); // Este efecto se ejecuta solo una vez, al montar el componente
+
+  useEffect(() => {
     const fetchAcciones = async () => {
       try {
         if (usuarioLoading) return; // Esperar a que termine de cargar el usuario
@@ -47,16 +55,9 @@ export default function Principal({ navigation, route }){
       }
     };
 
-    fetchUsuario();
     fetchAcciones();
-  }, [usuario.pais_id, usuarioLoading]); 
+  }, [usuario.pais_id, usuarioLoading]);
 
-  const handleAccionPress = (simbolo,usuarioH) => {
-    // Aquí puedes navegar a otra pantalla pasando el símbolo de la acción como parámetro
-    console.log(usuarioH)
-
-    navigation.navigate('Compra', { simbolo },usuarioH);
-  };
 
   if (loading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
