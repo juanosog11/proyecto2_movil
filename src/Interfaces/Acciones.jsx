@@ -7,6 +7,7 @@ const Ventas = ({ navigation, route }) => {
     const [accionesCompradas, setAccionesCompradas] = useState([]);
     const [empresaNombres, setEmpresaNombres] = useState({});
     const [loading, setLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const datosU = route.params.usuario;
     const usuario = datosU;
@@ -16,10 +17,16 @@ const Ventas = ({ navigation, route }) => {
             try {
                 const response = await fetch(`http://localhost:3001/UsuarioAccionUser/usuario/${usuario.id}`);
                 const data = await response.json();
-                setAccionesCompradas(data);
-                await fetchNombresEmpresas(data);
+
+                if (response.status === 404) {
+                    setErrorMessage('No tienes acciones');
+                } else {
+                    setAccionesCompradas(data);
+                    await fetchNombresEmpresas(data);
+                }
             } catch (error) {
                 console.error('Error fetching acciones compradas:', error);
+                setErrorMessage('Ocurrió un error, inténtalo más tarde');
             } finally {
                 setLoading(false);
             }
@@ -34,21 +41,14 @@ const Ventas = ({ navigation, route }) => {
                     nombres[accion.simbolo_empresa] = data.nombre;
                 } catch (error) {
                     console.error('Error conseguir empresa:', error);
+                    setErrorMessage('Ocurrió un error, inténtalo más tarde');
                 }
             }
             setEmpresaNombres(nombres);
         };
 
         fetchAccionesCompradas();
-    }, []);
-
-    const handleAccionPress = (simbolo) => {
-        navigation.navigate('Ventas', { simbolo, usuario });
-    };
-
-    if (loading) {
-        return <ActivityIndicator size="large" color="#0000ff" />;
-    }
+    }, [route.params.usuario]);
 
     const fecha = (fecha) => {
         const now = new Date(fecha);
@@ -59,6 +59,24 @@ const Ventas = ({ navigation, route }) => {
         const formattedDate = `${year}-${month}-${day}`;
         return formattedDate;
     };
+
+    if (loading) {
+        return <ActivityIndicator size="large" color="#0000ff" />;
+    }
+
+    if (errorMessage) {
+        return (
+            <View style={estilosPrincipal.container}>
+                <View style={estilosPrincipal.head}>
+                    <Text style={estilosPrincipal.title}>Mis Acciones</Text>
+                </View>
+                <View style={estilosPrincipal.head}>
+                    <Text style={estilosPrincipal.title}>{errorMessage}</Text>
+                </View>
+                <NavBar navigation={navigation} usuario={usuario} />
+            </View>
+        );
+    }
 
     return (
         <View style={estilosPrincipal.container}>

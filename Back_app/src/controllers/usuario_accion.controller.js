@@ -51,7 +51,7 @@ export const getUsuario_acc_user = async (req, res) => {
     
     if (rows.length <= 0)
       return res.status(404).json({
-        message: 'Employee not found',
+        message: 'No tienes acciones',
       });
     res.json(rows);
   } catch (error) {
@@ -70,7 +70,7 @@ export const getUsuario_acc_user_simbolo = async (req, res) => {
 
     if (rows.length <= 0)
       return res.status(404).json({
-        message: 'Employee not found',
+        message: 'No se encontro',
       });
     res.json(rows[0]);
   } catch (error) {
