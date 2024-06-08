@@ -11,8 +11,8 @@ export default function Modificar({ navigation, route }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedPais, setSelectedPais] = useState('');
   const [paises, setPaises] = useState([]);
-  const [nombre, setNombre] = useState('');
-  const [contrasena, setContrasena] = useState('');
+  const [nombre, setNombre] = useState(usuario.nombre);
+  const [contrasena, setContrasena] = useState(usuario.contraseña);
   const [loading, setLoading] = useState(true);
   
 
@@ -42,15 +42,7 @@ export default function Modificar({ navigation, route }) {
       id = await handlePais()
       console.log("id", id)
     }
-
-    if (nombre === '') {
-      setNombre(usuario.nombre)
-    }
-
-    if (contrasena === '') {
-      setContrasena(usuario.contraseña)
-    }
-    
+   
     try {
       const update = await fetch(`http://localhost:3001/Usuario/${usuario.id}`, {
         method: 'PATCH',
