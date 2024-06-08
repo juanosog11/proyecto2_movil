@@ -39,12 +39,12 @@ export default function Modificar({ navigation, route }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          pais: paises,
+          pais: selectedPais,
           nombre: nombre,
           contrasena: contrasena,
         }),
       });
-      navigation.navigate('Principal', { usuario: usuario });
+      navigation.navigate('Principal', { usuario: { ...usuario, pais_id: selectedPais, nombre: nombre } });
     } catch (error) {
 
     }
@@ -101,7 +101,7 @@ export default function Modificar({ navigation, route }) {
               <Picker
                 style={EstiloModificar.picker}
                 selectedValue={selectedPais}
-                onValueChange={(itemValue, itemIndex) => setSelectedPais(itemValue)}
+                onValueChange={(itemValue) => setSelectedPais(itemValue)}
               >
                 <Picker.Item label='Seleccione el país' value='' />
                 {paises.map((pais, index) => (
