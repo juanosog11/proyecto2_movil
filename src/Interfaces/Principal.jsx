@@ -9,6 +9,7 @@ export default function Principal({ navigation, route }){
 
   const [usuario, setUsuario] = useState(route.params.usuario);
   const [usuarioLoading, setUsuarioLoading] = useState(true);
+  
 
   useEffect(() => {
     console.log('Principal');

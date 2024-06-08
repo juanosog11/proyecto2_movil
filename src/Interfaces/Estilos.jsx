@@ -159,6 +159,11 @@ export const estilosPrincipal = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    accionContainer:{
+        borderWidth: 1,
+        borderColor: 'black',
+        margin:2
+    }
 });
 
 export const estilosPerfil = StyleSheet.create({

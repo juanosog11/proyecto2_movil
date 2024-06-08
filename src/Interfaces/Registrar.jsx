@@ -73,7 +73,7 @@ export default function Registrar({ navigation }) {
       });
       const dataUsuario = await CrearUsuario.json();
       console.log("Respuesta del servidor:", dataUsuario);
-      navigation.navigate('Principal', { usuario: usuario });
+      navigation.navigate('Inicio');
 
 
     } catch (error) {
