@@ -33,7 +33,7 @@ export default function Principal({ navigation, route }){
 
     fetchUsuario();
 
-  }, []); // Este efecto se ejecuta solo una vez, al montar el componente
+  }, [route.params.usuario]); // Utiliza route.params.usuario como dependencia
 
   useEffect(() => {
     const fetchAcciones = async () => {
@@ -56,7 +56,7 @@ export default function Principal({ navigation, route }){
     };
 
     fetchAcciones();
-  }, [usuario.pais_id, usuarioLoading]);
+  }, [usuario.pais_id, usuarioLoading]); 
 
 
   if (loading) {
