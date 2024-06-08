@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Image, Text, TouchableOpacity, View, ScrollView } from 'react-native';
-import { estilosPerfil, estilos_estandar } from './Estilos.jsx';
+import { estilosPerfil, estilos_estandar, navbar } from './Estilos.jsx'; // Asegúrate de importar los estilos de navbar
 import NavBar from '../components/Navbar.jsx';
 
 export default function Perfil({ navigation, route }) {
@@ -31,27 +31,28 @@ export default function Perfil({ navigation, route }) {
 
   const Accion = async () => {
     try {
-      const BuscarAcc = await fetch(`http://localhost:3001/UsuarioAccionCan/${usuario.id}`)
+      const BuscarAcc = await fetch(`http://localhost:3001/UsuarioAccionCan/${usuario.id}`);
       const datacant = await BuscarAcc.json();
       setAcciones(datacant);
-      console.log('cantidad: ', cant);
+      console.log('cantidad: ', datacant); // Asegúrate de usar el nombre correcto de la variable aquí
     } catch (error) {
 
     }
-  }
+  };
 
   useEffect(() => {
     PaisB();
-    Accion(); // Llamar a la función cuando se monte el componente
+    Accion();
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <View style={estilos_estandar.container}>
+    <View style={estilos_estandar.container}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 80, flexGrow: 1 }}> {/* Ajuste aquí */}
         <View style={estilos_estandar.head}>
           <Text style={estilos_estandar.title}>smartInvest</Text>
           <Image source={require('../images/logo.jpeg')} style={estilos_estandar.logo} />
         </View>
+
         <View style={estilosPerfil.form}>
           <Image source={require('../images/images (2).jpeg')} style={estilosPerfil.logo} />
           <Text style={estilosPerfil.title}>Datos del Usuario</Text>
@@ -88,15 +89,14 @@ export default function Perfil({ navigation, route }) {
 
           <View style={estilosPerfil.buttonContainer}>
             <Button
-              title='Modificar Informacion'
+              title="Modificar Informacion"
               onPress={() => navigation.navigate('Modificar', { usuario })}
               style={estilosPerfil.button}
-            ></Button>
+            />
           </View>
         </View>
       </ScrollView>
       <NavBar navigation={navigation} usuario={usuario} />
     </View>
-
   );
 }
