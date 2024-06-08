@@ -26,20 +26,22 @@ export const getUsuario_acc = async (req, res) => {
 };
 export const getUsuario_acc_can = async (req, res) => {
   try {
-    const [rows] = await pool.query('SELECT simbolo_empresa, cantidad FROM Usuario_Accion WHERE usuario_id = ?', [
-      req.params.usuario_id,
-    ]);
+    const [rows] = await pool.query(
+      'SELECT simbolo_empresa, SUM(cantidad) AS total_acciones FROM Usuario_Accion WHERE usuario_id = ? GROUP BY simbolo_empresa',
+      [req.params.usuario_id]
+    );
     if (rows.length <= 0)
       return res.status(404).json({
         message: 'Employee not found',
       });
-    res.json(rows[0]);
+    res.json(rows);
   } catch (error) {
     return res.status(500).json({
       message: 'Ocurrio algo intente mas tarde',
     });
   }
 };
+
 
 export const getUsuario_acc_user = async (req, res) => {
   
