@@ -4,13 +4,9 @@ import { estilosPerfil, estilos_estandar, navbar } from './Estilos.jsx'; // Aseg
 import NavBar from '../components/Navbar.jsx';
 
 export default function Perfil({ navigation, route }) {
-  const [imagen, setImagen] = useState('');
-  const [nombre, setNombre] = useState('');
   const [pais, setPaises] = useState('');
   const [acciones, setAcciones] = useState('');
-  const [saldo, setSaldo] = useState('');
-  const [correo, setCorreo] = useState('');
-  const [numero, setNumero] = useState('');
+
 
   const datosU = route.params.usuario;
   console.log(datosU);

@@ -106,14 +106,6 @@ export default function Registrar({ navigation }) {
           value={nombre}
           onChangeText={setNombre}
         />
-        <Text style={EstiloRegistro.title}>Teléfono</Text>
-        <TextInput
-          style={EstiloRegistro.input}
-          placeholder='Teléfono'
-          keyboardType='number-pad'
-          value={telefono}
-          onChangeText={setTelefono}
-        />
         <Text style={EstiloRegistro.title}>País</Text>
         <View style={EstiloRegistro.input}>
           <Picker
