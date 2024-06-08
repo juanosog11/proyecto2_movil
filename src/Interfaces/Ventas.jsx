@@ -3,16 +3,16 @@ import { View, Text, TextInput, Button, ActivityIndicator, Alert } from 'react-n
 import { estilosVenta } from './Estilos.jsx';
 import NavBar from '../components/Navbar.jsx';
 
-export default function Venta({ navigation,route}) {
+export default function Venta({ navigation, route }) {
     const { simbolo } = route.params;
     const { usuario } = route.params;
     const [accion, setAccion] = useState({});
     const [cantidad, setCantidad] = useState('');
-    const [accionesUsuario, setAccionesUsuario] = useState(0);
+    const [accionesUsuario, setAccionesUsuario] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    
-    console.log('Venta accion:', JSON.stringify(usuario));
+
+    // console.log('Venta accion:', JSON.stringify(usuario));
 
     useEffect(() => {
         const fetchAccion = async () => {
@@ -20,6 +20,7 @@ export default function Venta({ navigation,route}) {
                 const response = await fetch(`https://api-acciones.onrender.com/api/acciones/${simbolo}`);
                 const data = await response.json();
                 setAccion(data);
+
             } catch (error) {
                 console.error('Error fetching accion:', error);
             } finally {
@@ -27,18 +28,19 @@ export default function Venta({ navigation,route}) {
             }
         };
 
-        // const fetchAccionesUsuario = async () => {
-        //     try {
-        //         const response = await fetch(`https://api-acciones.onrender.com/api/acciones_usuario/${simbolo}`);
-        //         const data = await response.json();
-        //         setAccionesUsuario(data.cantidad);
-        //     } catch (error) {
-        //         console.error('Error fetching acciones usuario:', error);
-        //     }
-        // };
+        const AccionUsuario = async () => {
+            try {
+                const BuscarAcc = await fetch(`http://localhost:3001/UsuarioAccionUser/usuario/${usuario.id}/${simbolo}`);
+                const data = await BuscarAcc.json();
+                setAccionesUsuario(data);
+                console.log('acciones: ', data); // Asegúrate de usar el nombre correcto de la variable aquí
+            } catch (error) {
+                console.log('Error: ', error);
+            }
+        };
 
         fetchAccion();
-        // fetchAccionesUsuario();
+        AccionUsuario();
     }, [simbolo]);
 
     const handleVenta = async () => {
@@ -47,37 +49,89 @@ export default function Venta({ navigation,route}) {
             return;
         }
 
-        // if (cantidad > accionesUsuario) {
-        //     Alert.alert('Error', 'No tienes suficientes acciones para vender.');
-        //     return;
-        // }
+        if (cantidad > accionesUsuario.cantidad) {
+            Alert.alert('Error', 'No tienes suficientes acciones para vender.');
+            return;
+        }
 
-        const precioTotal = cantidad * accion.precio;
+        const precioTotal = (cantidad * accion.precio).toFixed(2);
+
+        const updateSaldoUsuario = async (total) => {
+            try {
+                // console.log(total)
+                const response = await fetch(`http://localhost:3001/Usuario/${usuario.id}`);
+                const usuarioData = await response.json();
+                const nuevoSaldo = parseFloat(usuarioData.saldo) + parseFloat(total);
+                // console.log(nuevoSaldo);
+
+                const updateResponse = await fetch(`http://localhost:3001/Usuario/${usuario.id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ saldo: nuevoSaldo })
+                });
+
+                if (updateResponse.ok) {
+                    console.log('Saldo actualizado exitosamente.');
+                } else {
+                    console.log('Error al actualizar el saldo.');
+                }
+            } catch (error) {
+                console.log('Error al actualizar el saldo del usuario:', error);
+            }
+        };
+
+        const cantIgual = async (total) => {
+            try {
+                const response = await fetch(`http://localhost:3001/UsuarioAccion/${accionesUsuario.id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (response.ok) {
+                    console.log('Acciones vendidas exitosamente.');
+                    await updateSaldoUsuario(total);
+                    navigation.navigate('Principal', { usuario });
+                } else {
+                    console.log('Error al vender acciones.');
+                }
+            } catch (error) {
+                console.log('Error al vender todas las acciones:', error);
+            }
+        };
 
         try {
-            const response = await fetch('https://api-acciones.onrender.com/api/vender', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    simbolo,
-                    cantidad,
-                    precioTotal,
-                }),
-            });
-
-            if (response.ok) {
-                Alert.alert('Venta realizada', `Has vendido ${cantidad} acciones de ${accion.nombre} por ${precioTotal} USD.`);
-                navigation.goBack();
+            if (cantidad == accionesUsuario.cantidad) {
+                await cantIgual(precioTotal);
             } else {
-                Alert.alert('Error', 'Hubo un problema al realizar la venta.');
+                const nuevaCantidad = accionesUsuario.cantidad - cantidad;
+                const response = await fetch(`http://localhost:3001/UsuarioAccion/${accionesUsuario.id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        cantidad: nuevaCantidad
+                    })
+                });
+
+                if (response.ok) {
+                    console.log('Cantidad de acciones actualizada exitosamente.');
+                    await updateSaldoUsuario(precioTotal);
+                    navigation.navigate('Principal', { usuario });
+                } else {
+                    console.log('Error al actualizar la cantidad de acciones.');
+                }
             }
         } catch (error) {
             console.error('Error realizando la venta:', error);
             Alert.alert('Error', 'Hubo un problema al realizar la venta.');
         }
     };
+
 
     if (loading) {
         return <ActivityIndicator size="large" color="#0000ff" />;
@@ -90,7 +144,7 @@ export default function Venta({ navigation,route}) {
                 <>
                     <Text style={estilosVenta.nombreAccion}>{accion.nombre}</Text>
                     <Text style={estilosVenta.precioAccion}>Precio por acción: {accion.precio} USD</Text>
-                    <Text style={estilosVenta.cantidadAcciones}>Acciones disponibles: {2}</Text>
+                    <Text style={estilosVenta.cantidadAcciones}>Acciones disponibles: {accionesUsuario.cantidad}</Text>
                     <TextInput
                         style={estilosVenta.input}
                         placeholder="Cantidad"

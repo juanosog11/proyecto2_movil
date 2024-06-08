@@ -7,7 +7,8 @@ export default function Principal({ navigation, route }){
   const [acciones, setAcciones] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { usuario } = route.params;
+  const [usuario, setUsuario] = useState(route.params.usuario);
+  const [usuarioLoading, setUsuarioLoading] = useState(true);
 
   // Ahora puedes acceder a los datos del usuario, por ejemplo:
   console.log('Principal');
@@ -15,18 +16,29 @@ export default function Principal({ navigation, route }){
   console.log('Contraseña:', usuario.contraseña);
 
   useEffect(() => {
+    const fetchUsuario = async () => {
+      try {
+        const responseUsuario = await fetch(`http://localhost:3001/Usuario/${usuario.id}`);
+        const dataUsuario = await responseUsuario.json();
+        setUsuario(dataUsuario);
+      } catch (error) {
+        console.error('Error fetching usuario:', error);
+      } finally {
+        setUsuarioLoading(false);
+      }
+    };
+
     const fetchAcciones = async () => {
       try {
-        // Fetching country data
+        if (usuarioLoading) return; // Esperar a que termine de cargar el usuario
+
         const responsePais = await fetch(`http://localhost:3001/Pais/${usuario.pais_id}`);
         const dataPais = await responsePais.json();
         console.log(dataPais.nombre);
-        
 
-        // Fetching actions data
         const responseAcciones = await fetch(`https://api-acciones.onrender.com/api/acciones/pais/${dataPais.nombre}`);
         const dataAcciones = await responseAcciones.json();
-        console.log(dataAcciones)
+        console.log(dataAcciones);
         setAcciones(dataAcciones);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -35,8 +47,9 @@ export default function Principal({ navigation, route }){
       }
     };
 
+    fetchUsuario();
     fetchAcciones();
-  }, [usuario.pais_id]);
+  }, [usuario.pais_id, usuarioLoading]); 
 
   const handleAccionPress = (simbolo,usuarioH) => {
     // Aquí puedes navegar a otra pantalla pasando el símbolo de la acción como parámetro
