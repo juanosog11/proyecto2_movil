@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Button, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import SelectInput from 'react-native-picker-select';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { EstiloModificar, EstiloRegistro, estilosPerfil, estilos_estandar } from './Estilos.jsx';
 import { Picker } from '@react-native-picker/picker';
 
 export default function Modificar({ navigation, route }) {
-  const { usuario } = route.params;
-
+  
+  const [usuario, setUsuario] = useState(route.params.usuario);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedPais, setSelectedPais] = useState('');
   const [paises, setPaises] = useState([]);
   const [nombre, setNombre] = useState('');
   const [contrasena, setContrasena] = useState('');
+  const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     const fetchAcciones = async () => {
@@ -32,6 +34,9 @@ export default function Modificar({ navigation, route }) {
   }, []);
 
   const handleModificar = async () => {
+    console.log(selectedPais)
+    const id = await handlePais()
+    console.log("id", id)
     try {
       const update = await fetch(`http://localhost:3001/Usuario/${usuario.id}`, {
         method: 'PATCH',
@@ -39,12 +44,15 @@ export default function Modificar({ navigation, route }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          pais: selectedPais,
+          pais_id: id,
           nombre: nombre,
-          contrasena: contrasena,
+          contraseña: contrasena,
         }),
       });
-      navigation.navigate('Principal', { usuario: { ...usuario, pais_id: selectedPais, nombre: nombre } });
+      console.log(update)
+      const usuario2 = await update.json()
+      console.log(usuario2)
+      navigation.navigate('Principal', { usuario2 });
     } catch (error) {
 
     }
@@ -57,9 +65,10 @@ export default function Modificar({ navigation, route }) {
       const dataPais = await CallidPais.json();
       const idPais = dataPais.id;
       console.log('ID del país:', idPais);
+      return idPais
     } catch (error) {
       console.error('Error al registrar usuario', error);
-      return false;
+      return ""
     }
   };
 
@@ -82,6 +91,12 @@ export default function Modificar({ navigation, route }) {
       }
     });
   };
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
+
+
   return (
     <ScrollView style={estilos_estandar.container}>
       <View style={estilos_estandar.head}>

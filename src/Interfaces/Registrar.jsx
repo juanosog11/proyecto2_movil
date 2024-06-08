@@ -9,7 +9,6 @@ export default function Registrar({ navigation }) {
   const [selectedPais, setSelectedPais] = useState('');
   const [edad, setEdad] = useState('');
   const [nombre, setNombre] = useState('');
-  const [telefono, setTelefono] = useState('');
   const [correo, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
   const [saldo, setSaldo] = useState(0);
