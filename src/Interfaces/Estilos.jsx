@@ -162,37 +162,37 @@ export const estilosPrincipal = StyleSheet.create({
 });
 
 export const estilosPerfil = StyleSheet.create({
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    logo: {
-        width: 100,
-        height: 100,
-        resizeMode: 'contain',
-    },
-    form: {
-        paddingHorizontal: 20,
-        paddingTop: 20,
-    },
-    userData: {
-        marginBottom: 10,
-    },
-    userDataLabel: {
-        fontWeight: 'bold',
-    },
-    button: {
-        backgroundColor: 'blue', // Color de fondo del botón
-        padding: 10,
-        borderRadius: 5,
-        alignItems: 'center',
-        marginTop: 20,
-    },
-    buttonText: {
-        color: '#fff', // Color del texto del botón
-        fontWeight: 'bold',
-    },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
+  },
+  form: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  userData: {
+    marginBottom: 10,
+  },
+  userDataLabel: {
+    fontWeight: 'bold',
+  },
+  button: {
+    backgroundColor: 'blue', // Color de fondo del botón
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  buttonText: {
+    color: '#fff', // Color del texto del botón
+    fontWeight: 'bold',
+  },
 });
 
 export const EstiloRegistro = StyleSheet.create({

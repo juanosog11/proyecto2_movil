@@ -46,7 +46,7 @@ export default function Perfil({ navigation, route }) {
   }, []);
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={estilos_estandar.container}>
         <View style={estilos_estandar.head}>
           <Text style={estilos_estandar.title}>smartInvest</Text>
@@ -65,17 +65,13 @@ export default function Perfil({ navigation, route }) {
           </View>
           <View style={estilosPerfil.userData}>
             <Text style={estilosPerfil.userDataLabel}>Acciones:</Text>
-            <Text>
-              {Array.isArray(acciones) ? (
-                acciones.map((accion, index) => (
-                  <Text key={index}>
-                    {accion.nombre} - {accion.cantidad}
-                  </Text>
-                ))
+            <View>
+              {Array.isArray(acciones) && acciones.length > 0 ? (
+                acciones.map((accion, index) => <Text key={index}>{accion.total_acciones}</Text>)
               ) : (
                 <Text>No hay acciones disponibles</Text>
               )}
-            </Text>
+            </View>
           </View>
           <View style={estilosPerfil.userData}>
             <Text style={estilosPerfil.userDataLabel}>Saldo:</Text>
@@ -87,7 +83,7 @@ export default function Perfil({ navigation, route }) {
           </View>
           <View style={estilosPerfil.userData}>
             <Text style={estilosPerfil.userDataLabel}>Número:</Text>
-            <Text>+{usuario.numero}</Text>
+            <Text>{usuario.numero}</Text>
           </View>
 
           <View style={estilosPerfil.buttonContainer}>
