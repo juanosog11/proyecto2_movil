@@ -18,24 +18,24 @@ export default function Perfil({ navigation, route }) {
   console.log('acciones usuario', usuario.id);
 
   const PaisB = async () => {
-    try{
+    try {
       const BuscarPais = await fetch(`http://localhost:3001/Pais/${usuario.pais_id}`);
-    const dataPais = await BuscarPais.json();
-    const nomPais = dataPais.nombre;
-    console.log('nombre del país:', nomPais);
-    setPaises(nomPais);
-    }catch(error){
+      const dataPais = await BuscarPais.json();
+      const nomPais = dataPais.nombre;
+      console.log('nombre del país:', nomPais);
+      setPaises(nomPais);
+    } catch (error) {
 
     }
   };
 
-  const Accion = async () =>{
-    try{
+  const Accion = async () => {
+    try {
       const BuscarAcc = await fetch(`http://localhost:3001/UsuarioAccionCan/${usuario.id}`)
       const datacant = await BuscarAcc.json();
       setAcciones(datacant);
-      console.log('cantidad: ',cant );
-    }catch(error){
+      console.log('cantidad: ', cant);
+    } catch (error) {
 
     }
   }
@@ -46,8 +46,9 @@ export default function Perfil({ navigation, route }) {
   }, []);
 
   return (
-    <ScrollView>
-      <View style={estilos_estandar.container}>
+
+    <View style={estilos_estandar.container}>
+      <ScrollView>
         <View style={estilos_estandar.head}>
           <Text style={estilos_estandar.title}>smartInvest</Text>
           <Image source={require('../images/logo.jpeg')} style={estilos_estandar.logo} />
@@ -98,8 +99,9 @@ export default function Perfil({ navigation, route }) {
             ></Button>
           </View>
         </View>
-        <NavBar navigation={navigation} usuario={usuario} />
-      </View>
-    </ScrollView>
+      </ScrollView>
+      <NavBar navigation={navigation} usuario={usuario} />
+    </View>
+
   );
 }

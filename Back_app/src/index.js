@@ -9,11 +9,15 @@ import PaisMoneda from "./routes/pais_moneda.routes.js";
 
 const app = express()
 
-app.listen(3001)
-console.log("servidor corriendo en el puerto 3001")
+app.listen(3001, () => {
+    console.log("Servidor corriendo en el puerto 3001");
+});
+
+// Middleware
 app.use(express.json())
 app.use(cors());
 
+// Registrar las rutas
 app.use(index)
 app.use(Monedas)
 app.use(PaisMoneda)

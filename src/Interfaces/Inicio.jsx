@@ -33,12 +33,22 @@ export default function HomeScreen({ navigation }) {
 
   const handleIniciar = async () => {
     
-    if (correo != "" & contrasena != "") {
+    
+    if (correo !== "" & contrasena !== "") {
+      console.log(correo, " ", contrasena)
+      
       try {
         // Enviar una solicitud al backend para verificar el correo y la contraseña
-        const response = await fetch('http://localhost:3001/Usuario/' + correo + '/' + contrasena);
+        const response = await fetch(`https://6ae1-2800-484-9a86-a0-b13d-2e5f-950c-4f6a.ngrok-free.app/Usuario/${correo}/${contrasena}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        });
         const data = await response.json();
-
+        
+        console.log(data)
         // Verificar si se encontró el usuario
         if (response.ok) {
           // Navegar al componente 'Principal' y pasar el usuario como parámetro
