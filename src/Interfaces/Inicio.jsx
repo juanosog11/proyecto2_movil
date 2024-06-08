@@ -39,6 +39,13 @@ export default function HomeScreen({ navigation }) {
       
       try {
         // Enviar una solicitud al backend para verificar el correo y la contraseña
+        // const response = await fetch(`http://localhost:3001/Usuario/${correo}/${contrasena}`, {
+        //   method: 'GET',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //     'Access-Control-Allow-Origin': '*',
+        //   },
+        // });
         const response = await fetch(`http://localhost:3001/Usuario/${correo}/${contrasena}`, {
           method: 'GET',
           headers: {
