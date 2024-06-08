@@ -34,9 +34,23 @@ export default function Modificar({ navigation, route }) {
   }, []);
 
   const handleModificar = async () => {
-    console.log(selectedPais)
-    const id = await handlePais()
-    console.log("id", id)
+    var id = 0
+    if (selectedPais === '') {
+      id = usuario.pais_id
+    }
+    else {
+      id = await handlePais()
+      console.log("id", id)
+    }
+
+    if (nombre === '') {
+      setNombre(usuario.nombre)
+    }
+
+    if (contrasena === '') {
+      setContrasena(usuario.contraseña)
+    }
+    
     try {
       const update = await fetch(`http://localhost:3001/Usuario/${usuario.id}`, {
         method: 'PATCH',
